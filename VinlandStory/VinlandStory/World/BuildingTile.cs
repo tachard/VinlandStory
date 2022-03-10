@@ -8,5 +8,9 @@ namespace VinlandStory
 {
     class BuildingTile:Tile
     {
+        public override void Update(Tile t)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
