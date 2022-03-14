@@ -11,8 +11,6 @@ namespace VinlandStory
         public int Length { get; set; }
         public int Width { get; set; }
         private Tile[,] _world;
-        private Resources _totalAvailableMin;
-        private Resources _totalAvailableMax;
         private Random _alea;
 
         public World()
@@ -20,20 +18,43 @@ namespace VinlandStory
             Length = 16;
             Width = 16;
             _world = new Tile[Length, Width];
-            _totalAvailableMin = new Resources(4000, 4000, 4000);
-            _totalAvailableMin = new Resources(7000, 7000, 7000);
-            this.generateWorld(_alea);
+            this.generateWorld();
         }
 
         public override string ToString()
         {
-            //TO DO: Implémenter ToString()
-            return base.ToString();
+            string output = "";
+            for(int i = 0; i < Length; i++)
+            {
+                for(int j= 0; j < Width; j++)
+                {
+                    output += _world[i, j].ToString();
+                }
+                output += "\n";
+            }
+            return output;
         }
 
-        private void generateWorld(Random r)
+        private void generateWorld()
         {
-            //TO DO: Implémente la fonction pour qu'elle remplisse de manière cohérente le monde
+            for (int i = 0; i < Length; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    switch (_alea.Next(0, 3))
+                    {
+                        case 0:
+                            _world[i, j] = new MeadowTile(_alea);
+                            break;
+                        case 1:
+                            _world[i, j] = new ForestTile(_alea);
+                            break;
+                        case 2:
+                            _world[i, j] = new DepositTile(_alea);
+                            break;
+                    }
+                }
+            }
         }
 
         public int countSettler()
@@ -41,6 +62,17 @@ namespace VinlandStory
             int count = 0;
             //TO DO: compter le nombre de villageois (penser au cas où y en a plusieurs sur une même case)
             return count;
+        }
+
+        public bool UpdateTile(int i, int j, Tile tile)
+        {
+            if (i >= 0 && i < Length && j >= 0 && j < Width)
+            {
+                _world[i, j] = tile;
+                return true;
+            }
+            else
+                return false;
         }
     }
 }

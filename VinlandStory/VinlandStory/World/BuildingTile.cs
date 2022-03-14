@@ -8,9 +8,16 @@ namespace VinlandStory
 {
     class BuildingTile:Tile
     {
-        public override void Update(Tile t)
+        private static readonly Resources __BUILDING_RESOURCES_MIN = new Resources(0, 0, 0);
+        private static readonly Resources __BUILDING_RESOURCES_MAX = new Resources(0, 0, 0);
+
+        public BuildingTile(Random alea) : base(__BUILDING_RESOURCES_MIN, __BUILDING_RESOURCES_MAX, alea) { }
+
+        public override string ToString()
         {
-            throw new NotImplementedException();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.BackgroundColor = ConsoleColor.Gray;
+            return "⌂";
         }
     }
 }
