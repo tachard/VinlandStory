@@ -11,7 +11,7 @@ namespace VinlandStory
         public int Length { get; set; }
         public int Width { get; set; }
         private Tile[,] _world;
-        private Random _alea;
+        private Random _alea = new Random();
 
         public World()
         {
@@ -21,18 +21,18 @@ namespace VinlandStory
             this.generateWorld();
         }
 
-        public override string ToString()
+        public void PrintWorld()
         {
-            string output = "";
             for(int i = 0; i < Length; i++)
             {
                 for(int j= 0; j < Width; j++)
                 {
-                    output += _world[i, j].ToString();
+                    _world[i, j].PrintTile();
                 }
-                output += "\n";
+                Console.Write("\n");
             }
-            return output;
+
+            //TO DO : Ajouter Longhouse + Builder's house + MeadowTile around it
         }
 
         private void generateWorld()
@@ -41,7 +41,8 @@ namespace VinlandStory
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    switch (_alea.Next(0, 3))
+                    int diceroll = _alea.Next(0, 3);
+                    switch (diceroll)
                     {
                         case 0:
                             _world[i, j] = new MeadowTile(_alea);
@@ -55,13 +56,6 @@ namespace VinlandStory
                     }
                 }
             }
-        }
-
-        public int countSettler()
-        {
-            int count = 0;
-            //TO DO: compter le nombre de villageois (penser au cas où y en a plusieurs sur une même case)
-            return count;
         }
 
         public bool UpdateTile(int i, int j, Tile tile)
