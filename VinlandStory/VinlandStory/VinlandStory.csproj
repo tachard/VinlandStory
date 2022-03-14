@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buildings\Building.cs" />
+    <Compile Include="Buildings\Longhouse.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="World\BuildingTile.cs" />
     <Compile Include="World\DepositTile.cs" />

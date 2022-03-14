@@ -9,10 +9,12 @@ namespace VinlandStory
     class Miner : Personnage
     {
        private int _stone;
+        private int _maxStone;
 
-        public Miner(int x, int y, int velocity, double BirthRate, double DeathRate, int Stone) : base(x, y, velocity, BirthRate, DeathRate)
+        public Miner(int x, int y, int velocity, double BirthRate, double DeathRate, int Stone, int maxStone) : base(x, y, velocity, BirthRate, DeathRate)
         {
             _stone = Stone;
+            _maxStone = maxStone;
         }
         public int getStone()
         {
@@ -22,7 +24,21 @@ namespace VinlandStory
         {
             _stone = nvStone;
         }
-        public void pickStone()
-        { }
+        public bool IsFull()
+        {
+            return (_stone == _maxStone);
+        }
+        public bool pickStone(int numberStone)
+        {
+            if (IsFull() == true)
+            {
+                return false;
+            }
+            else
+            {
+                setStone(numberStone);
+                return true;
+            }
+        }
     }
 }

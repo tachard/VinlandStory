@@ -11,6 +11,12 @@ namespace VinlandStory
         public Builder(int x, int y, int velocity, double BirthRate, double DeathRate) : base(x, y, velocity, BirthRate, DeathRate)
         { }
 
-        public void Build() { }
+        public void CanBuild(int nbTurn) 
+        { 
+            for (int i=nbTurn; i >=0; i--)
+            {
+                // TO DO : Rajouter la fonction de construction au batiment (dans la classe batiment)
+            }
+        }
     }
 }
