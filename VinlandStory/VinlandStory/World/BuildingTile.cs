@@ -13,11 +13,11 @@ namespace VinlandStory
 
         public BuildingTile(Random alea) : base(__BUILDING_RESOURCES_MIN, __BUILDING_RESOURCES_MAX, alea) { }
 
-        public override string ToString()
+        public override void PrintTile()
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.BackgroundColor = ConsoleColor.Gray;
-            return "⌂";
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.Write("⌂");
         }
     }
 }

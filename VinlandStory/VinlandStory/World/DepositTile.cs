@@ -13,11 +13,11 @@ namespace VinlandStory
 
         public DepositTile(Random alea) : base(__DEPOSIT_RESOURCES_MIN, __DEPOSIT_RESOURCES_MAX, alea) { }
 
-        public override string ToString()
+        public override void PrintTile()
         {
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.BackgroundColor = ConsoleColor.Black;
-            return "Δ";
+            Console.Write("Δ");
         }
     }
 }

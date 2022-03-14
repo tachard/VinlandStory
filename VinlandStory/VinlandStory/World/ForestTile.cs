@@ -13,11 +13,11 @@ namespace VinlandStory
 
         public ForestTile(Random alea) : base(__FOREST_RESOURCES_MIN, __FOREST_RESOURCES_MAX, alea) { }
 
-        public override string ToString()
+        public override void PrintTile()
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.BackgroundColor = ConsoleColor.Black;
-            return "♣";
+            Console.Write("\u04AC");
         }
     }
 }

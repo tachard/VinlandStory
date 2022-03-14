@@ -10,6 +10,6 @@ namespace VinlandStory.Buildings
     {
         Resources _stock;
         List<Villager> _villagers;
-        public Longhouse()
+        public Longhouse(int x, int y):base(x,y,2,2,new Resources(0, 0, 0), 0, 0) { }
     }
 }
