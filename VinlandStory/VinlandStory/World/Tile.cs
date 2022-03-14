@@ -20,5 +20,7 @@ namespace VinlandStory
                 alea.Next(AvailableMin.Stone, AvailableMax.Stone + 1),
                 alea.Next(AvailableMin.Food, AvailableMax.Food + 1));
         }
+
+        public abstract void PrintTile();
     }
 }

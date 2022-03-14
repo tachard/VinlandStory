@@ -9,6 +9,7 @@ namespace VinlandStory.Buildings
     class Longhouse : Building
     {
         Resources _stock;
+
         List<Villager> _listvillagers;
 
         // TO DO : Définir la dimension des bâtiments dans le "base"

@@ -13,11 +13,11 @@ namespace VinlandStory
 
         public MeadowTile(Random alea):base(__MEADOW_RESOURCES_MIN, __MEADOW_RESOURCES_MAX, alea) { }
 
-        public override string ToString()
+        public override void PrintTile()
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.BackgroundColor = ConsoleColor.Black;
-            return "``";
+            Console.Write("_");
         }
     }
 }
