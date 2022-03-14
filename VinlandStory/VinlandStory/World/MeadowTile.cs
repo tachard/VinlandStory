@@ -8,9 +8,16 @@ namespace VinlandStory
 {
     class MeadowTile:Tile
     {
-        public override void Update(Tile t)
+        private static readonly Resources __MEADOW_RESOURCES_MIN = new Resources(0, 0, 40);
+        private static readonly Resources __MEADOW_RESOURCES_MAX = new Resources(0, 0, 40);
+
+        public MeadowTile(Random alea):base(__MEADOW_RESOURCES_MIN, __MEADOW_RESOURCES_MAX, alea) { }
+
+        public override string ToString()
         {
-            throw new NotImplementedException();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.BackgroundColor = ConsoleColor.Black;
+            return "``";
         }
     }
 }

@@ -8,9 +8,16 @@ namespace VinlandStory
 {
     class ForestTile:Tile
     {
-        public override void Update(Tile t)
+        private static readonly Resources __FOREST_RESOURCES_MIN = new Resources(150, 0, 40);
+        private static readonly Resources __FOREST_RESOURCES_MAX = new Resources(150, 0, 40);
+
+        public ForestTile(Random alea) : base(__FOREST_RESOURCES_MIN, __FOREST_RESOURCES_MAX, alea) { }
+
+        public override string ToString()
         {
-            throw new NotImplementedException();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.BackgroundColor = ConsoleColor.Black;
+            return "♣";
         }
     }
 }

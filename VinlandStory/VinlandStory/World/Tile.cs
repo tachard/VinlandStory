@@ -12,11 +12,13 @@ namespace VinlandStory
         public Resources AvailableMin { get; private set; }
         public Resources AvailableMax { get; private set; }
 
-        public abstract void Update(Tile t);
-
-        public bool IsSettlerOn()
+        public Tile(Resources availableMin, Resources availableMax, Random alea)
         {
-            //TO DO: A implémenter
-        } 
+            AvailableMin = availableMin;
+            AvailableMax = availableMax;
+            Available = new Resources(alea.Next(AvailableMin.Wood, AvailableMax.Wood + 1),
+                alea.Next(AvailableMin.Stone, AvailableMax.Stone + 1),
+                alea.Next(AvailableMin.Food, AvailableMax.Food + 1));
+        }
     }
 }
