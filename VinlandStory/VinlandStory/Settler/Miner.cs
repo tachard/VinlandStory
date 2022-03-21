@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VinlandStory
 {
-    class Miner : Personnage
+    class Miner : Settler
     {
        private int _stone;
         private int _maxStone;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VinlandStory
 {
-    class Lumberjack : Personnage
+    class Lumberjack : Settler
     {
         private int _wood;
         private int _maxWood;

@@ -50,6 +50,7 @@
     <Compile Include="Buildings\Mine.cs" />
     <Compile Include="Buildings\Workshop.cs" />
     <Compile Include="Resources.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="World\BuildingTile.cs" />
     <Compile Include="World\DepositTile.cs" />
     <Compile Include="World\ForestTile.cs" />
@@ -58,7 +59,7 @@
     <Compile Include="Settler\Hunter.cs" />
     <Compile Include="Settler\Lumberjack.cs" />
     <Compile Include="Settler\Miner.cs" />
-    <Compile Include="Settler\Personnage.cs" />
+    <Compile Include="Settler\Settler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settler\Villager.cs" />

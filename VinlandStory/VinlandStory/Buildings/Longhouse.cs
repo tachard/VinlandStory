@@ -8,15 +8,13 @@ namespace VinlandStory.Buildings
 {
     class Longhouse : Building
     {
-        Resources _stock;
+        public static readonly int __LONGHOUSE_LENGTH = 3;
+        public static readonly int __LONGHOUSE_WIDTH = 2;
+        public static readonly int __INITIAL_SETTLERS = 15;
 
-        List<Villager> _listvillagers;
-
-        // TO DO : Définir la dimension des bâtiments dans le "base"
-        public Longhouse(int x, int y, int length, int width, Resources cost, int radius, int nbWorkers, Resources stock) : base(x, y, length, width, new Resources(0,0,0),radius,15)
+        public Longhouse(int x, int y) : base(x, y, __LONGHOUSE_LENGTH, __LONGHOUSE_WIDTH, new Resources(0,0,0),0,__INITIAL_SETTLERS)
         {
-            _stock = stock;
-            _listvillagers = new List<Villager>(nbWorkers);
+
         }
 
 

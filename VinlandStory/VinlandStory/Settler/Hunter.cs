@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VinlandStory
 {
-    class Hunter : Personnage
+    class Hunter : Settler
     {
         private int _food;
         private int _maxFood;

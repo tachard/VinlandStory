@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VinlandStory
 {
-    class Builder : Personnage
+    class Builder : Settler
     {
         public Builder(int x, int y, int velocity, double BirthRate, double DeathRate) : base(x, y, velocity, BirthRate, DeathRate)
         { }

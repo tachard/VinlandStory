@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VinlandStory
 {
-    abstract class Personnage
+    abstract class Settler
     {
         protected int _x;
         protected int _y;
@@ -15,7 +15,7 @@ namespace VinlandStory
         protected double _deathRate;
 
         // TO DO : Rajouter les valeurs dans les sous-classes
-        public Personnage(int x, int y, int velocity, double BirthRate, double DeathRate) 
+        public Settler(int x, int y, int velocity, double BirthRate, double DeathRate) 
         {
             _x = x;
             _y = y;

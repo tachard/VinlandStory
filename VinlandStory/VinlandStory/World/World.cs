@@ -8,22 +8,23 @@ namespace VinlandStory
 {
     class World
     {
+        public static readonly int __LENGTH = 16;
+        public static readonly int __WIDTH = 16;
         public int Length { get; set; }
         public int Width { get; set; }
         private Tile[,] _world;
-        private Random _alea = new Random();
 
-        public World()
+        public World(Random r)
         {
-            Length = 16;
-            Width = 16;
+            Length = __LENGTH;
+            Width = __WIDTH;
             _world = new Tile[Length, Width];
-            this.generateWorld();
+            this.generateWorld(r);
         }
 
         public void PrintWorld()
         {
-            for(int i = 0; i < Length; i++)
+            for (int i = 0; i < Length; i++)
             {
                 for(int j= 0; j < Width; j++)
                 {
@@ -31,27 +32,25 @@ namespace VinlandStory
                 }
                 Console.Write("\n");
             }
-
-            //TO DO : Ajouter Longhouse + Builder's house + MeadowTile around it
         }
 
-        private void generateWorld()
+        private void generateWorld(Random r)
         {
             for (int i = 0; i < Length; i++)
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    int diceroll = _alea.Next(0, 3);
+                    int diceroll = r.Next(0, 3);
                     switch (diceroll)
                     {
                         case 0:
-                            _world[i, j] = new MeadowTile(_alea);
+                            _world[i, j] = new MeadowTile(r);
                             break;
                         case 1:
-                            _world[i, j] = new ForestTile(_alea);
+                            _world[i, j] = new ForestTile(r);
                             break;
                         case 2:
-                            _world[i, j] = new DepositTile(_alea);
+                            _world[i, j] = new DepositTile(r);
                             break;
                     }
                 }
