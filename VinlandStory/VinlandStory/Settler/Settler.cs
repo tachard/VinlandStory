@@ -64,6 +64,6 @@ namespace VinlandStory
         {
             _deathRate = nvDeath;
         }
-        public void Move(){ }
+        public bool Move(){ return true; }
     }
 }

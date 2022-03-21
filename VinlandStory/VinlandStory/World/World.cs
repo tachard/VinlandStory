@@ -32,6 +32,7 @@ namespace VinlandStory
                 }
                 Console.Write("\n");
             }
+            Console.ResetColor();
         }
 
         private void generateWorld(Random r)
