@@ -8,11 +8,15 @@ namespace VinlandStory.Buildings
 {
     class Mine : Building
     {
-        List<Miner> _listminers;
+        public static readonly int __MINE_LENGTH = 1;
+        public static readonly int __MINE_WIDTH = 1;
+        public static readonly Resources __MINE_COST = new Resources(5, 20, 0);
+        public static readonly int __MINE_RADIUS = 5;
+        public static readonly int __MINE_WORKERS = 2;
 
-        public Mine(int x, int y, int length, int width, Resources cost, int radius, int nbWorkers) : base(x, y, length, width, new Resources(), radius, 1)
+        public Mine(int x, int y) : base(x, y, __MINE_LENGTH, __MINE_WIDTH, __MINE_COST, __MINE_RADIUS, __MINE_WORKERS)
         {
-            _listminers = new List<Miner>();
+            
         }
     }
 }

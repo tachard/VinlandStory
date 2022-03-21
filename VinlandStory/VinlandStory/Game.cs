@@ -30,7 +30,7 @@ namespace VinlandStory
 
             //TO DO : Factoriser en une fonction
             this.build(_world.Length / 2 - 1, _world.Width / 2 - 1, new Longhouse(_world.Length / 2 - 1, _world.Width / 2 - 1));
-            
+            this.build(_world.Length / 2 - 2, _world.Length / 2 - 2, new BuildersHouse(_world.Length / 2 - 2, _world.Length / 2 - 2));
             //Prepare Console
             Console.OutputEncoding = Encoding.UTF8;
             Console.Title = "Vinland Story";
@@ -40,19 +40,23 @@ namespace VinlandStory
             {
                 this.playTurn();
             }
+
+            this.endGame();
         }
 
         private void playTurn()
         {
             _currentTurn++;
             _world.PrintWorld();
-            Console.WriteLine(_settlers[0]);
-            Console.WriteLine(_buildings[0]);
+            //TO DO:Complete
             Console.ReadLine();
         }
+
+        public void endGame() { }
         
         private int build(int x, int y, Building build)
         {
+            //TO DO: Modify to not include x,y
             /*Output codes :
              * 0 : No problems
              * -1 : Not enough resources

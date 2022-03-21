@@ -8,11 +8,15 @@ namespace VinlandStory.Buildings
 {
     class Workshop : Building
     {
-        List<Lumberjack> _listlumberjacks;
+        public static readonly int __WORKSHOP_LENGTH = 1;
+        public static readonly int __WORKSHOP_WIDTH = 1;
+        public static readonly Resources __WORKSHOP_COST = new Resources(20,5,0);
+        public static readonly int __WORKSHOP_RADIUS = 5;
+        public static readonly int __WORKSHOP_WORKERS = 2;
 
-        public Workshop(int x, int y, int length, int width, Resources cost, int radius, int nbWorkers) : base(x, y, length, width, new Resources(), radius, 1)
+        public Workshop(int x, int y) : base(x, y, __WORKSHOP_LENGTH, __WORKSHOP_WIDTH, __WORKSHOP_COST, __WORKSHOP_RADIUS, __WORKSHOP_WORKERS)
         {
-            _listlumberjacks = new List<Lumberjack>();
+
         }
     }
 }

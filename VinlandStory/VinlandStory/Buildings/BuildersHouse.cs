@@ -8,11 +8,15 @@ namespace VinlandStory.Buildings
 {
     class BuildersHouse : Building
     {
-        List<Builder> _listbuilders;
+        public static readonly int __BUILDERSHOUSE_LENGTH = 1;
+        public static readonly int __BUILDERSHOUSE_WIDTH = 1;
+        public static readonly Resources __BUILDERSHOUSE_COST = new Resources(20, 5, 0);
+        public static readonly int __BUILDERSHOUSE_RADIUS = 8;
+        public static readonly int __BUILDERSHOUSE_WORKERS = 2;
 
-        public BuildersHouse(int x, int y, int length, int width, Resources cost, int radius, int nbWorkers) : base(x, y, length, width, new Resources(), radius, 1)
+        public BuildersHouse(int x, int y) : base(x, y, __BUILDERSHOUSE_LENGTH, __BUILDERSHOUSE_WIDTH,__BUILDERSHOUSE_COST, __BUILDERSHOUSE_RADIUS, __BUILDERSHOUSE_WORKERS)
         {
-            _listbuilders = new List<Builder>();
+
         }
     }
 }
