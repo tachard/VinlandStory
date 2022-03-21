@@ -40,6 +40,7 @@ namespace VinlandStory
             }
             else
             {
+                //TO DO: revise this (in case of partial full)
                 setStone(numberStone);
                 return true;
             }

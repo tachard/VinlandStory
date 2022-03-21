@@ -30,20 +30,21 @@ namespace VinlandStory
             _wood = nvWood;
         }
 
-        public bool IsFull()
+        public bool isFull()
         {
             return (_wood == _maxWood);
         }
 
         public bool cutWood(int numberWood)
         {
-            if (IsFull())  
+            if (isFull())  
             {
                return false;
             }
             else
             {
-                setWood(numberWood);
+                //TO DO : revise this (case of partial full)
+                setWood(getWood()+numberWood);
                 return true;
             }
         }
