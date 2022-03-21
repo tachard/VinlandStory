@@ -29,18 +29,8 @@ namespace VinlandStory
             _resourcesOwned = new Resources(100, 100, 100);
 
             //TO DO : Factoriser en une fonction
-            _buildings.Add(new Longhouse(_world.Length / 2 - 1, _world.Width / 2 - 1));
-            for(int i = 0; i < Longhouse.__LONGHOUSE_WIDTH; i++)
-            {
-                for(int j = 0; j < Longhouse.__LONGHOUSE_LENGTH; j++)
-                {
-                    _world.UpdateTile(_world.Length / 2 - 1 + i, _world.Width / 2 - 1 + j, new BuildingTile(_rand));
-                }
-            }
-            for (int i = 0; i < Longhouse.__INITIAL_SETTLERS;i++)
-            {
-                _settlers.Add(new Villager(_world.Length / 2, _world.Width / 2 - 1));
-            }
+            this.build(_world.Length / 2 - 1, _world.Width / 2 - 1, new Longhouse(_world.Length / 2 - 1, _world.Width / 2 - 1));
+            
             //Prepare Console
             Console.OutputEncoding = Encoding.UTF8;
             Console.Title = "Vinland Story";
@@ -55,31 +45,60 @@ namespace VinlandStory
         private void playTurn()
         {
             _currentTurn++;
-            //TO DO : complete
+            _world.PrintWorld();
+            Console.WriteLine(_settlers[0]);
+            Console.WriteLine(_buildings[0]);
             Console.ReadLine();
         }
         
-        private bool build(int x, int y, Building build)
+        private int build(int x, int y, Building build)
         {
+            /*Output codes :
+             * 0 : No problems
+             * -1 : Not enough resources
+             * -2 : Building out of range
+             * -3 : Cannot add new villagers
+             */
+
+            if (_resourcesOwned.Wood < build.getCost().Wood || _resourcesOwned.Stone < build.getCost().Stone || _resourcesOwned.Food < build.getCost().Food)
+                return -1;
+
             World tmp = _world;
             _buildings.Add(build);
-            for (int i = 0; i <build.Width; i++)
+            for (int i = 0; i <build.getWidth(); i++)
             {
-                for (int j = 0; j < build.Length; j++)
+                for (int j = 0; j < build.getLength(); j++)
                 {
                     if(!tmp.UpdateTile(x + i, y + j, new BuildingTile(_rand)))
-                        return false; 
+                        return -2; 
                 }
             }
             _world = tmp;
-            for(int i = 0; i < build.Settler; i++)
+
+            for(int i = 0; i < build.getWorkers(); i++)
             {
-                switch (build.GetType())
+                switch (build.GetType().Name)
                 {
-                    case BuildersHouse:
-                        _settlers.Add(new Builder(x,y))
+                    case "BuildersHouse":
+                        _settlers.Add(new Builder(x, y));
+                        break;
+                    case "Longhouse":
+                        _settlers.Add(new Villager(x, y));
+                        break;
+                    case "HuntersHut":
+                        _settlers.Add(new Hunter(x, y));
+                        break;
+                    case "Mine":
+                        _settlers.Add(new Miner(x, y));
+                        break;
+                    case "Workshop":
+                        _settlers.Add(new Lumberjack(x, y));
+                        break;
+                    default:
+                        return -3;
                 }
             }
+            return 0;
         }
     }
 }
