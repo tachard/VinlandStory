@@ -13,6 +13,7 @@ namespace VinlandStory
         protected int _velocity;
         protected double _birthRate;
         protected double _deathRate;
+        protected bool _hunger;
 
         public Settler(int x, int y, int velocity, double BirthRate, double DeathRate) 
         {
@@ -21,6 +22,7 @@ namespace VinlandStory
             _velocity = velocity;
             _birthRate = BirthRate;
             _deathRate = DeathRate;
+            _hunger = false;
         }
 
         public int getX()
@@ -63,6 +65,7 @@ namespace VinlandStory
         {
             _deathRate = nvDeath;
         }
+
         public bool Move(){ return true; }
     }
 }

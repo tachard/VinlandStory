@@ -8,8 +8,8 @@ namespace VinlandStory
 {
     class World
     {
-        public static readonly int __LENGTH = 16;
-        public static readonly int __WIDTH = 16;
+        public static readonly int __LENGTH = 60;
+        public static readonly int __WIDTH = 180;
         public int Length { get; set; }
         public int Width { get; set; }
         private Tile[,] _world;
@@ -41,7 +41,7 @@ namespace VinlandStory
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    int diceroll = r.Next(0, 10);
+                    int diceroll = r.Next(0, 4);
                     switch (diceroll)
                     {
                         case 0:
@@ -51,30 +51,19 @@ namespace VinlandStory
                             _world[i, j] = new MeadowTile(r);
                             break;
                         case 2:
-                            _world[i, j] = new MeadowTile(r);
+                            _world[i, j] = new ForestTile(r);
                             break;
                         case 3:
-                            _world[i, j] = new MeadowTile(r);
-                            break;
-                        case 4:
-                            _world[i, j] = new ForestTile(r);
-                            break;
-                        case 5:
-                            _world[i, j] = new ForestTile(r);
-                            break;
-                        case 6:
-                            _world[i, j] = new ForestTile(r);
-                            break;
-                        case 7:
-                            _world[i, j] = new DepositTile(r);
-                            break;
-                        case 8:
-                            _world[i, j] = new DepositTile(r);
-                            break;
-                        case 9:
                             _world[i, j] = new DepositTile(r);
                             break;
                     }
+                }
+            }
+            for(int i = 0; i < 10; i++)
+            {
+                for(int j = 0; j < 25; j++)
+                {
+                    UpdateTile(Length / 2 - 5 + i, Width / 2 - 12 + j, new MeadowTile(r));
                 }
             }
         }
