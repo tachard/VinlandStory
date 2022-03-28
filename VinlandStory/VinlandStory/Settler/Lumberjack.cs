@@ -11,14 +11,15 @@ namespace VinlandStory
         public static readonly int __LUMBER_VELOCITY = 1;
         public static readonly double __LUMBER_BIRTH_RATE = 0;
         public static readonly double __LUMBER_DEATH_RATE = 0;
-        public static readonly int __MAX_WOOD = 400;
+        public static readonly int __LUMBER_MAX_WOOD_WEARABLE = 400;
+
         private int _wood;
         private int _maxWood;
 
         public Lumberjack(int x, int y) : base(x, y, __LUMBER_VELOCITY, __LUMBER_BIRTH_RATE, __LUMBER_DEATH_RATE)
         {
             _wood = 0;
-            _maxWood =__MAX_WOOD;
+            _maxWood = __LUMBER_MAX_WOOD_WEARABLE;
         }
 
         public int getWood()
