@@ -28,9 +28,9 @@ namespace VinlandStory
             _buildings = new List<Building>();
             _resourcesOwned = new Resources(100, 100, 100);
 
-            //TO DO : Factoriser en une fonction
             this.build(_world.Length / 2 - 1, _world.Width / 2 - 1, new Longhouse(_world.Length / 2 - 1, _world.Width / 2 - 1));
             this.build(_world.Length / 2 - 2, _world.Length / 2 - 2, new BuildersHouse(_world.Length / 2 - 2, _world.Length / 2 - 2));
+
             //Prepare Console
             Console.OutputEncoding = Encoding.UTF8;
             Console.Title = "Vinland Story";
@@ -54,7 +54,7 @@ namespace VinlandStory
 
         public void endGame() { }
         
-        private int build(int x, int y, Building build)
+        private int build(Building build)
         {
             //TO DO: Modify to not include x,y
             /*Output codes :
@@ -73,7 +73,7 @@ namespace VinlandStory
             {
                 for (int j = 0; j < build.getLength(); j++)
                 {
-                    if(!tmp.UpdateTile(x + i, y + j, new BuildingTile(_rand)))
+                    if(!tmp.UpdateTile(build.getX() + i, build.getY() + j, new BuildingTile(_rand)))
                         return -2; 
                 }
             }
@@ -84,19 +84,19 @@ namespace VinlandStory
                 switch (build.GetType().Name)
                 {
                     case "BuildersHouse":
-                        _settlers.Add(new Builder(x, y));
+                        _settlers.Add(new Builder(build.getX(), build.getY()));
                         break;
                     case "Longhouse":
-                        _settlers.Add(new Villager(x, y));
+                        _settlers.Add(new Villager(build.getX(), build.getY()));
                         break;
                     case "HuntersHut":
-                        _settlers.Add(new Hunter(x, y));
+                        _settlers.Add(new Hunter(build.getX(), build.getY()));
                         break;
                     case "Mine":
-                        _settlers.Add(new Miner(x, y));
+                        _settlers.Add(new Miner(build.getX(), build.getY()));
                         break;
                     case "Workshop":
-                        _settlers.Add(new Lumberjack(x, y));
+                        _settlers.Add(new Lumberjack(build.getX(), build.getY()));
                         break;
                     default:
                         return -3;

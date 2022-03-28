@@ -8,13 +8,17 @@ namespace VinlandStory
 {
     class Miner : Settler
     {
-       private int _stone;
+        public static readonly int __MINER_VELOCITY = 1;
+        public static readonly double __MINER_BIRTH_RATE = 0;
+        public static readonly double __MINER_DEATH_RATE = 0;
+        public static readonly int __MINER_MAX_STONE_WEARABLE = 400;
+        private int _stone;
         private int _maxStone;
 
-        public Miner(int x, int y, int velocity, double BirthRate, double DeathRate, int Stone, int maxStone) : base(x, y, velocity, BirthRate, DeathRate)
+        public Miner(int x, int y) : base(x, y,__MINER_VELOCITY, __MINER_BIRTH_RATE, __MINER_DEATH_RATE)
         {
-            _stone = Stone;
-            _maxStone = maxStone;
+            _stone = 0;
+            _maxStone = __MINER_MAX_STONE_WEARABLE;
         }
         public int getStone()
         {

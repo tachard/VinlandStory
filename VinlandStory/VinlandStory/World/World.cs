@@ -40,16 +40,37 @@ namespace VinlandStory
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    int diceroll = r.Next(0, 3);
+                    int diceroll = r.Next(0, 10);
                     switch (diceroll)
                     {
                         case 0:
                             _world[i, j] = new MeadowTile(r);
                             break;
                         case 1:
-                            _world[i, j] = new ForestTile(r);
+                            _world[i, j] = new MeadowTile(r);
                             break;
                         case 2:
+                            _world[i, j] = new MeadowTile(r);
+                            break;
+                        case 3:
+                            _world[i, j] = new MeadowTile(r);
+                            break;
+                        case 4:
+                            _world[i, j] = new ForestTile(r);
+                            break;
+                        case 5:
+                            _world[i, j] = new ForestTile(r);
+                            break;
+                        case 6:
+                            _world[i, j] = new ForestTile(r);
+                            break;
+                        case 7:
+                            _world[i, j] = new DepositTile(r);
+                            break;
+                        case 8:
+                            _world[i, j] = new DepositTile(r);
+                            break;
+                        case 9:
                             _world[i, j] = new DepositTile(r);
                             break;
                     }

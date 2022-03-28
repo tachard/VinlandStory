@@ -8,13 +8,17 @@ namespace VinlandStory
 {
     class Hunter : Settler
     {
+        public static readonly int __HUNTER_VELOCITY = 1;
+        public static readonly double __HUNTER_BIRTH_RATE = 0;
+        public static readonly double __HUNTER_DEATH_RATE = 0;
+        public static readonly int __HUNTER_MAX_FOOD_WEARABLE = 400;
         private int _food;
         private int _maxFood;
         
-        public Hunter(int x, int y, int velocity, double BirthRate, double DeathRate, int Food, int maxFood) : base(x, y, velocity, BirthRate, DeathRate)
+        public Hunter(int x, int y) : base(x, y, __HUNTER_VELOCITY, __HUNTER_BIRTH_RATE, __HUNTER_DEATH_RATE)
         {
-            _food = Food;
-            _maxFood = maxFood;
+            _food = 0;
+            _maxFood = __HUNTER_MAX_FOOD_WEARABLE;
         }
         public int getFood()
         {
