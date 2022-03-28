@@ -14,7 +14,6 @@ namespace VinlandStory
         protected double _birthRate;
         protected double _deathRate;
 
-        // TO DO : Rajouter les valeurs dans les sous-classes
         public Settler(int x, int y, int velocity, double BirthRate, double DeathRate) 
         {
             _x = x;
