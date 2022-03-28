@@ -9,9 +9,9 @@ namespace VinlandStory
     class Miner : Settler
     {
         public static readonly int __MINER_VELOCITY = 1;
-        public static readonly double __MINER_BIRTH_RATE = 0.2;
-        public static readonly double __MINER_DEATH_RATE = 0.15;
-        public static readonly int __MAX_STONE = 400;
+        public static readonly double __MINER_BIRTH_RATE = 0;
+        public static readonly double __MINER_DEATH_RATE = 0;
+
         private int _stone;
         private int _maxStone;
 
