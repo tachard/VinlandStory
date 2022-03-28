@@ -20,6 +20,13 @@ namespace VinlandStory
 
         public Game()
         {
+            //Prepare Console
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.Title = "Vinland Story";
+
+            //Pre-game function
+            this.begin();
+
             //Intiate game
             _rand = new Random();
             _currentTurn = 0;
@@ -28,12 +35,8 @@ namespace VinlandStory
             _buildings = new List<Building>();
             _resourcesOwned = new Resources(100, 100, 100);
 
-            this.build(_world.Length / 2 - 1, _world.Width / 2 - 1, new Longhouse(_world.Length / 2 - 1, _world.Width / 2 - 1));
-            this.build(_world.Length / 2 - 2, _world.Length / 2 - 2, new BuildersHouse(_world.Length / 2 - 2, _world.Length / 2 - 2));
-
-            //Prepare Console
-            Console.OutputEncoding = Encoding.UTF8;
-            Console.Title = "Vinland Story";
+            this.build(new Longhouse(_world.Length / 2 - 1, _world.Width / 2 - 1));
+            this.build(new BuildersHouse(_world.Length / 2 - 2, _world.Width / 2 - 2));
 
             //Game itself
             while (_currentTurn < __MAX_TURNS)
@@ -44,11 +47,47 @@ namespace VinlandStory
             this.endGame();
         }
 
+        private void begin()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Bienvenue dans VinlandStory !\n");
+            Console.ResetColor();
+            Console.WriteLine("Préparez-vous à revivre l'arrivée des Vikings sur de nouvelles terres vierges !");
+            Console.WriteLine("Vous ne disposez que de 30 tours pour faire prospérer votre colonie. En tant que chef, prenez des décisions pour assurer la survie de tous !");
+            Console.WriteLine("Êtes-vous prêt ?");
+            Console.ReadLine();
+
+            Console.Clear();
+        }
+
         private void playTurn()
         {
             _currentTurn++;
+            Console.Clear();
+            Console.WriteLine("~~~~~ TOUR {0} ~~~~~\n", _currentTurn);
             _world.PrintWorld();
-            //TO DO:Complete
+            Console.WriteLine();
+            Console.Write(_resourcesOwned);
+            Console.WriteLine("\tColons : {0}", _settlers.Count());
+            Console.WriteLine();
+            Console.WriteLine("Voici ce que vous pouvez faire : ");
+            Console.WriteLine("- Tapez c - Construire un bâtiment.");
+            Console.WriteLine("- Tapez i en sélectionnant une case - Révélez les ressources de la case");
+            char k;
+            do
+            {
+                k = Console.ReadKey().KeyChar;
+            } while (k != 'c' && k != 'i');
+            switch (k)
+            {
+                case 'c':
+                    build
+                    break;
+                case 'i':
+                    showInfos(Console.GetCursorPosition())
+            }
+
+
             Console.ReadLine();
         }
 
