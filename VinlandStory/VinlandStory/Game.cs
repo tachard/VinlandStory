@@ -70,29 +70,86 @@ namespace VinlandStory
             Console.Write(_resourcesOwned);
             Console.WriteLine("\tColons : {0}", _settlers.Count());
             Console.WriteLine();
-            Console.WriteLine("Voici ce que vous pouvez faire : ");
-            Console.WriteLine("- Tapez c - Construire un bâtiment.");
-            Console.WriteLine("- Tapez i en sélectionnant une case - Révélez les ressources de la case");
-            char k;
-            do
+            int totalBuilders = 0;
+            List<Builder> unoccupiedBuilders = new List<Builder>();
+            foreach(Settler settler in _settlers)
             {
-                k = Console.ReadKey().KeyChar;
-            } while (k != 'c' && k != 'i');
-            switch (k)
-            {
-                case 'c':
-                    build
-                    break;
-                case 'i':
-                    showInfos(Console.GetCursorPosition())
+                if (settler is Builder)
+                {
+                    Builder builder = (Builder)settler;
+                    totalBuilders++;
+                    if (!settler.isOccupied())
+                        unoccupiedBuilders.Add(builder);
+                }
             }
+            Console.WriteLine("Voici ce que vous pouvez faire : ");
+            Console.WriteLine("- Tapez c - Construire un bâtiment. {0}/{1} bâtisseur.s disponibles",unoccupiedBuilders,totalBuilders);
+            Console.WriteLine("- Tapez i en sélectionnant une case - Révélez les ressources de la case");
+            Console.WriteLine("- Tapez une autre touche pour passer");
+            char k;
+            bool action;
+            while (unoccupiedBuilders.Count>0)
+            {
+                do
+                {
+                    k = Console.ReadKey().KeyChar;
+                } while (k != 'c' && k != 'i');
+                switch (k)
+                {
+                    case 'c':
+                        action = chooseBuildOption(unoccupiedBuilders[0]);
+                        if (action)
+                            unoccupiedBuilders.RemoveAt(0);
+                        break;
+                    case 'i':
+                        showInfos(Console.CursorTop, Console.CursorLeft);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            
 
 
             Console.ReadLine();
         }
 
-        public void endGame() { }
+        private void endGame() { }
         
+        private bool chooseBuildOption(Builder b)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Choisissez un bâtiment à construire (tapez le numéro correspondant tout en sélectionnant la case où il sera mis) :");
+            Console.WriteLine("0 - Retour");
+            Console.WriteLine("1 - Cabane des bâtisseurs");
+            Console.WriteLine("Coût :" + BuildersHouse.__BUILDERSHOUSE_COST.ToString());
+            Console.WriteLine("2 - Cabane des chasseurs");
+            Console.WriteLine("Coût :" + HuntersHut.__HUT_COST.ToString());
+            Console.WriteLine("3 - Scierie");
+            Console.WriteLine("Coût :" + Workshop.__WORKSHOP_COST.ToString());
+            Console.WriteLine("4 - Mine");
+            Console.WriteLine("Coût :" + Mine.__MINE_COST.ToString());
+            char k;
+            do
+            {
+                k = Console.ReadKey().KeyChar;
+            } while (k != '0' && k != '1' && k != '2' && k != '4' && k != '4');
+            switch (k)
+            {
+                case '0':
+                    return false;
+                case '1':
+                    switch(build(new BuildersHouse(Console.CursorTop - 2, Console.CursorLeft)))
+                    {
+                        case '0':
+                            //TO DO : Créer un moyen d'assigner un objectif
+                    }
+                        
+                    break;
+                default:
+                    break;
+            }
+        }
         private int build(Building build)
         {
             //TO DO: Modify to not include x,y

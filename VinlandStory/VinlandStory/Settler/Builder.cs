@@ -14,7 +14,7 @@ namespace VinlandStory
 
         public Builder(int x, int y) : base(x, y, __BUILDER_VELOCITY, __BUILDER_BIRTH_RATE, __BUILDER_DEATH_RATE)
         { }
-
+        //TO DO: Ajouter fonction isOccupied() déterminant s'il est occupé
         public void CanBuild(int nbTurn) 
         { 
             for (int i=nbTurn; i >=0; i--)
