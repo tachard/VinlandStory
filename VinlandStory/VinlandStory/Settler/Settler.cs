@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VinlandStory.Buildings;
 
 namespace VinlandStory
 {
@@ -14,8 +15,11 @@ namespace VinlandStory
         protected double _birthRate;
         protected double _deathRate;
         protected bool _hunger;
+        public Building Goal { get; set; }
+        public Building Origin { get; private set; }
+        protected bool _goingToGoal;
 
-        public Settler(int x, int y, int velocity, double BirthRate, double DeathRate) 
+        public Settler(int x, int y, int velocity, double BirthRate, double DeathRate, Building goal, Building origin) 
         {
             _x = x;
             _y = y;
@@ -23,6 +27,9 @@ namespace VinlandStory
             _birthRate = BirthRate;
             _deathRate = DeathRate;
             _hunger = false;
+            _goingToGoal = true;
+            Goal = goal;
+            Origin = origin;
         }
 
         public int getX()
@@ -66,6 +73,42 @@ namespace VinlandStory
             _deathRate = nvDeath;
         }
 
-        public bool Move(){ return true; }
+        public void Move()
+        {
+            if (_goingToGoal)
+                MakeStep(Goal);
+            else
+                MakeStep(Origin);
+        }
+        private void MakeStep(Building Objective)
+        {
+            int MoveDist = (Objective.getX() - getX()) * (Objective.getX() - getX()) + (Objective.getY() - getY()) * (Objective.getY() - getY());
+            int bestX = 0;
+            int bestY = 0;
+            for (int i = -1; i <= 1; i++)
+            {
+                for (int j = -1; i <= 1; j++)
+                {
+                    int afterPotentialMoveDist = (Objective.getX() - getX() - i) * (Objective.getX() - getX() - i) + (Objective.getY() - getY() - j) * (Objective.getY() - getY() - j);
+                    if (afterPotentialMoveDist < MoveDist)
+                    {
+                        MoveDist = afterPotentialMoveDist;
+                        bestX = _x + i;
+                        bestY = _y + j;
+                    }
+                }
+            }
+            _x = bestX;
+            _y = bestY;
+        }
+        public bool Live(Random r)
+        {
+            return r.NextDouble() > _deathRate;
+        }
+        public bool GiveBirth(Random r)
+        {
+            return r.NextDouble() < _birthRate;
+        }
+        public abstract bool Eat(bool hasEaten);
     }
 }

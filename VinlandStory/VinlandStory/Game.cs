@@ -62,6 +62,7 @@ namespace VinlandStory
 
         private void playTurn()
         {
+            //Beginning of turn
             _currentTurn++;
             Console.Clear();
             Console.WriteLine("~~~~~ TOUR {0} ~~~~~\n", _currentTurn);
@@ -70,6 +71,7 @@ namespace VinlandStory
             Console.Write(_resourcesOwned);
             Console.WriteLine("\tColons : {0}", _settlers.Count());
             Console.WriteLine();
+            //User interaction
             int totalBuilders = 0;
             List<Builder> unoccupiedBuilders = new List<Builder>();
             foreach(Settler settler in _settlers)
@@ -83,17 +85,14 @@ namespace VinlandStory
                 }
             }
             Console.WriteLine("Voici ce que vous pouvez faire : ");
-            Console.WriteLine("- Tapez c - Construire un bâtiment. {0}/{1} bâtisseur.s disponibles",unoccupiedBuilders,totalBuilders);
+            Console.WriteLine("- Tapez c - Construire un bâtiment. {0}/{1} bâtisseur.s disponibles",unoccupiedBuilders.Count(),totalBuilders);
             Console.WriteLine("- Tapez i en sélectionnant une case - Révélez les ressources de la case");
             Console.WriteLine("- Tapez une autre touche pour passer");
             char k;
             bool action;
-            while (unoccupiedBuilders.Count>0)
+            do
             {
-                do
-                {
-                    k = Console.ReadKey().KeyChar;
-                } while (k != 'c' && k != 'i');
+                k = Console.ReadKey().KeyChar;
                 switch (k)
                 {
                     case 'c':
@@ -107,11 +106,13 @@ namespace VinlandStory
                     default:
                         break;
                 }
-            }
+            } while (k != 'c' || unoccupiedBuilders.Count() > 0);
+
+            //Automatic behaviour
+            CheckHunger();
+            CheckLife();
+            Move();
             
-
-
-            Console.ReadLine();
         }
 
         private void endGame() { }
@@ -197,6 +198,7 @@ namespace VinlandStory
         b.Goal = new BuildersHouse(Console.CursorTop - 2, Console.CursorLeft);
         return true;
         }
+        //TO DO: Repair showInfos
         private void showInfos(int x, int y)
         {
             Console.WriteLine("Position : (x,y)=({0},{1})", x, y);
@@ -206,6 +208,44 @@ namespace VinlandStory
             {
                 BuildingTile tile = _world.Tiles[x, y] as BuildingTile;
                 Console.WriteLine(tile.Build);
+            }
+        }
+
+        private void CheckHunger()
+        {
+            foreach(Settler s in _settlers)
+            {
+                if (_resourcesOwned.Food > 0)
+                {
+                    s.Eat(true);
+                    _resourcesOwned.Food -= 1;
+                }
+                else
+                    s.Eat(false);
+            }
+        }
+
+        private void Move()
+        {
+            foreach (Settler s in _settlers)
+            {
+                s.Move();
+            }
+        }
+
+        private void CheckLife()
+        {
+            //Check if still alive
+            foreach(Settler s in _settlers)
+            {
+                if (!s.Live(_rand))
+                    _settlers.Remove(s);
+            }
+            //Check if gives birth
+            foreach(Settler s in _settlers)
+            {
+                if (s.GiveBirth(_rand))
+                    _settlers.Add(new Villager(s.getX(), s.getY()));
             }
         }
     }
