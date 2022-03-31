@@ -35,8 +35,8 @@ namespace VinlandStory
             _buildings = new List<Building>();
             _resourcesOwned = new Resources(100, 100, 100);
 
-            this.build(new Longhouse(_world.Length / 2 - 1, _world.Width / 2 - 1));
-            this.build(new BuildersHouse(_world.Length / 2 - 2, _world.Width / 2 - 2));
+            this.build(new Longhouse(_world.Length / 2 - 1, _world.Width / 2 - 1),new Builder(_world.Length / 2 - 1, _world.Width / 2 - 1));
+            this.build(new BuildersHouse(_world.Length / 2 - 2, _world.Width / 2 - 2), new Builder(_world.Length / 2 - 2, _world.Width / 2 - 2));
 
             //Game itself
             while (_currentTurn < __MAX_TURNS)
@@ -76,9 +76,9 @@ namespace VinlandStory
             {
                 if (settler is Builder)
                 {
-                    Builder builder = (Builder)settler;
+                    Builder builder = settler as Builder;
                     totalBuilders++;
-                    if (!settler.isOccupied())
+                    if (!builder.isOccupied())
                         unoccupiedBuilders.Add(builder);
                 }
             }
@@ -133,35 +133,29 @@ namespace VinlandStory
             do
             {
                 k = Console.ReadKey().KeyChar;
-            } while (k != '0' && k != '1' && k != '2' && k != '4' && k != '4');
+            } while (k != '0' && k != '1' && k != '2' && k != '3' && k != '4');
             switch (k)
             {
                 case '0':
                     return false;
                 case '1':
-                    switch(build(new BuildersHouse(Console.CursorTop - 2, Console.CursorLeft)))
-                    {
-                        case '0':
-                            //TO DO : Créer un moyen d'assigner un objectif
-                    }
-                        
-                    break;
-                default:
-                    break;
+                    return build(new BuildersHouse(Console.CursorTop - 2, Console.CursorLeft),b);
+                case '2':
+                    return build(new HuntersHut(Console.CursorTop - 2, Console.CursorLeft), b);
+                case '3':
+                    return build(new Workshop(Console.CursorTop - 2, Console.CursorLeft), b);
+                case '4':
+                    return build(new Mine(Console.CursorTop - 2, Console.CursorLeft), b);
             }
+            return false;
         }
-        private int build(Building build)
+        private bool build(Building build, Builder b)
         {
-            //TO DO: Modify to not include x,y
-            /*Output codes :
-             * 0 : No problems
-             * -1 : Not enough resources
-             * -2 : Building out of range
-             * -3 : Cannot add new villagers
-             */
-
             if (_resourcesOwned.Wood < build.getCost().Wood || _resourcesOwned.Stone < build.getCost().Stone || _resourcesOwned.Food < build.getCost().Food)
-                return -1;
+            {
+                Console.WriteLine("Pas assez de ressources");
+                return false;
+            }
 
             World tmp = _world;
             _buildings.Add(build);
@@ -170,7 +164,11 @@ namespace VinlandStory
                 for (int j = 0; j < build.getLength(); j++)
                 {
                     if(!tmp.UpdateTile(build.getX() + i, build.getY() + j, new BuildingTile(_rand)))
-                        return -2; 
+                    {
+                        Console.WriteLine("Construction hors-limites !");
+                        return false;
+                    }
+                        
                 }
             }
             _world = tmp;
@@ -194,11 +192,10 @@ namespace VinlandStory
                     case "Workshop":
                         _settlers.Add(new Lumberjack(build.getX(), build.getY()));
                         break;
-                    default:
-                        return -3;
                 }
             }
-            return 0;
+        b.Goal = new BuildersHouse(Console.CursorTop - 2, Console.CursorLeft);
+        return true;
         }
     }
 }
