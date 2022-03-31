@@ -12,13 +12,13 @@ namespace VinlandStory
         public static readonly int __WIDTH = 180;
         public int Length { get; set; }
         public int Width { get; set; }
-        private Tile[,] _world;
+        public Tile[,] Tiles;
 
         public World(Random r)
         {
             Length = __LENGTH;
             Width = __WIDTH;
-            _world = new Tile[Length, Width];
+            Tiles = new Tile[Length, Width];
             this.generateWorld(r);
         }
 
@@ -28,7 +28,7 @@ namespace VinlandStory
             {
                 for(int j= 0; j < Width; j++)
                 {
-                    _world[i, j].PrintTile();
+                    Tiles[i, j].PrintTile();
                 }
                 Console.Write("\n");
             }
@@ -45,16 +45,16 @@ namespace VinlandStory
                     switch (diceroll)
                     {
                         case 0:
-                            _world[i, j] = new MeadowTile(r);
+                            Tiles[i, j] = new MeadowTile(r);
                             break;
                         case 1:
-                            _world[i, j] = new MeadowTile(r);
+                            Tiles[i, j] = new MeadowTile(r);
                             break;
                         case 2:
-                            _world[i, j] = new ForestTile(r);
+                            Tiles[i, j] = new ForestTile(r);
                             break;
                         case 3:
-                            _world[i, j] = new DepositTile(r);
+                            Tiles[i, j] = new DepositTile(r);
                             break;
                     }
                 }
@@ -72,7 +72,7 @@ namespace VinlandStory
         {
             if (i >= 0 && i < Length && j >= 0 && j < Width)
             {
-                _world[i, j] = tile;
+                Tiles[i, j] = tile;
                 return true;
             }
             else

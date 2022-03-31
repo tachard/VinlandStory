@@ -197,5 +197,9 @@ namespace VinlandStory
         b.Goal = new BuildersHouse(Console.CursorTop - 2, Console.CursorLeft);
         return true;
         }
+        private void showInfos(int x, int y)
+        {
+            Console.WriteLine(_world.Tile[x, y].Available);
+        }
     }
 }
