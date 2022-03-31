@@ -163,7 +163,7 @@ namespace VinlandStory
             {
                 for (int j = 0; j < build.getLength(); j++)
                 {
-                    if(!tmp.UpdateTile(build.getX() + i, build.getY() + j, new BuildingTile(_rand)))
+                    if(!tmp.UpdateTile(build.getX() + i, build.getY() + j, new BuildingTile(_rand, build)))
                     {
                         Console.WriteLine("Construction hors-limites !");
                         return false;
@@ -199,7 +199,14 @@ namespace VinlandStory
         }
         private void showInfos(int x, int y)
         {
-            Console.WriteLine(_world.Tile[x, y].Available);
+            Console.WriteLine("Position : (x,y)=({0},{1})", x, y);
+            Console.WriteLine(_world.Tiles[x, y].Available);
+            
+            if(_world.Tiles[x,y] is BuildingTile)
+            {
+                BuildingTile tile = _world.Tiles[x, y] as BuildingTile;
+                Console.WriteLine(tile.Build);
+            }
         }
     }
 }
