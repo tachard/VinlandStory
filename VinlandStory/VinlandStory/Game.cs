@@ -86,7 +86,7 @@ namespace VinlandStory
             }
             Console.WriteLine("Voici ce que vous pouvez faire : ");
             Console.WriteLine("- Tapez c - Construire un bâtiment. {0}/{1} bâtisseur.s disponibles",unoccupiedBuilders.Count(),totalBuilders);
-            Console.WriteLine("- Tapez i en sélectionnant une case - Révélez les ressources de la case");
+            Console.WriteLine("- Tapez i - Révélez les ressources de la case");
             Console.WriteLine("- Tapez une autre touche pour passer");
             char k;
             bool action;
@@ -101,12 +101,14 @@ namespace VinlandStory
                             unoccupiedBuilders.RemoveAt(0);
                         break;
                     case 'i':
-                        showInfos(Console.CursorTop, Console.CursorLeft);
-                        break;
-                    default:
+                        Console.Write("Entrez la ligne de la case :");
+                        int ligne = int.Parse(Console.ReadLine());
+                        Console.Write("Entrez la ligne de la case :");
+                        int colonne = int.Parse(Console.ReadLine());
+                        showInfos(ligne,colonne);
                         break;
                 }
-            } while (k != 'c' || unoccupiedBuilders.Count() > 0);
+            } while (k != 'c' || k=='c'&&unoccupiedBuilders.Count() > 0);
 
             //Automatic behaviour
             CheckHunger();

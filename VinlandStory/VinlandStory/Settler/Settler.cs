@@ -15,11 +15,11 @@ namespace VinlandStory
         protected double _birthRate;
         protected double _deathRate;
         protected bool _hunger;
-        public Building Goal { get; set; }
-        public Building Origin { get; private set; }
+        public Tile Goal { get; set; }
+        public Tile Origin { get; private set; }
         protected bool _goingToGoal;
 
-        public Settler(int x, int y, int velocity, double BirthRate, double DeathRate, Building goal, Building origin) 
+        public Settler(int x, int y, int velocity, double BirthRate, double DeathRate, Tile goal, Tile origin) 
         {
             _x = x;
             _y = y;
@@ -80,9 +80,9 @@ namespace VinlandStory
             else
                 MakeStep(Origin);
         }
-        private void MakeStep(Building Objective)
+        private void MakeStep(Tile goal)
         {
-            int MoveDist = (Objective.getX() - getX()) * (Objective.getX() - getX()) + (Objective.getY() - getY()) * (Objective.getY() - getY());
+            int MoveDist = (goal.getX() - getX()) * (goal.getX() - getX()) + (goal.getY() - getY()) * (goal.getY() - getY());
             int bestX = 0;
             int bestY = 0;
             for (int i = -1; i <= 1; i++)
