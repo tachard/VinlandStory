@@ -11,7 +11,7 @@ namespace VinlandStory
         private static readonly Resources __MEADOW_RESOURCES_MIN = new Resources(0, 0, 100);
         private static readonly Resources __MEADOW_RESOURCES_MAX = new Resources(0, 0, 140);
 
-        public MeadowTile(Random alea):base(__MEADOW_RESOURCES_MIN, __MEADOW_RESOURCES_MAX, alea) { }
+        public MeadowTile(Random alea, int x, int y):base(__MEADOW_RESOURCES_MIN, __MEADOW_RESOURCES_MAX, alea, x, y) { }
 
         public override void PrintTile()
         {

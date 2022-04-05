@@ -35,8 +35,10 @@ namespace VinlandStory
             _buildings = new List<Building>();
             _resourcesOwned = new Resources(100, 100, 100);
 
-            this.build(new Longhouse(_world.Length / 2 - 1, _world.Width / 2 - 1),new Builder(_world.Length / 2 - 1, _world.Width / 2 - 1));
-            this.build(new BuildersHouse(_world.Length / 2 - 2, _world.Width / 2 - 2), new Builder(_world.Length / 2 - 2, _world.Width / 2 - 2));
+            Longhouse mainBuilding = new Longhouse(_world.Length / 2 - 1, _world.Width / 2 - 1);
+            this.build(mainBuilding, new Builder(_world.Length / 2 - 1, _world.Width / 2 - 1, mainBuilding));
+            BuildersHouse buildHouse = new BuildersHouse(_world.Length / 2 - 2, _world.Width / 2 - 2);
+            this.build(buildHouse, new Builder(_world.Length / 2 - 2, _world.Width / 2 - 2, buildHouse));
 
             //Game itself
             while (_currentTurn < __MAX_TURNS)
@@ -181,19 +183,19 @@ namespace VinlandStory
                 switch (build.GetType().Name)
                 {
                     case "BuildersHouse":
-                        _settlers.Add(new Builder(build.getX(), build.getY()));
+                        _settlers.Add(new Builder(build.getX(), build.getY(), build));
                         break;
                     case "Longhouse":
-                        _settlers.Add(new Villager(build.getX(), build.getY()));
+                        _settlers.Add(new Villager(build.getX(), build.getY(), build));
                         break;
                     case "HuntersHut":
-                        _settlers.Add(new Hunter(build.getX(), build.getY()));
+                        _settlers.Add(new Hunter(build.getX(), build.getY(), build));
                         break;
                     case "Mine":
-                        _settlers.Add(new Miner(build.getX(), build.getY()));
+                        _settlers.Add(new Miner(build.getX(), build.getY(), build));
                         break;
                     case "Workshop":
-                        _settlers.Add(new Lumberjack(build.getX(), build.getY()));
+                        _settlers.Add(new Lumberjack(build.getX(), build.getY(), build));
                         break;
                 }
             }
@@ -231,7 +233,7 @@ namespace VinlandStory
         {
             foreach (Settler s in _settlers)
             {
-                s.Move();
+                s.Move(_rand);
             }
         }
 
@@ -247,7 +249,7 @@ namespace VinlandStory
             foreach(Settler s in _settlers)
             {
                 if (s.GiveBirth(_rand))
-                    _settlers.Add(new Villager(s.getX(), s.getY()));
+                    _settlers.Add(new Villager(s.getX(), s.getY(), _buildings[0]));
             }
         }
     }

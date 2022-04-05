@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VinlandStory.Buildings;
 
 namespace VinlandStory
 {
@@ -16,7 +17,7 @@ namespace VinlandStory
         private int _stone;
         private int _maxStone;
 
-        public Miner(int x, int y) : base(x, y,__MINER_VELOCITY, __MINER_BIRTH_RATE, __MINER_DEATH_RATE)
+        public Miner(int x, int y, Building origin) : base(x, y,__MINER_VELOCITY, __MINER_BIRTH_RATE, __MINER_DEATH_RATE, null, origin)
         {
             _stone = 0;
             _maxStone = __MINER_MAX_STONE_WEARABLE;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VinlandStory.Buildings;
 
 namespace VinlandStory
 {
@@ -14,7 +15,7 @@ namespace VinlandStory
         public static readonly double __VILLAGER_HUNGRY_BIRTH_RATE = 0;
         public static readonly double __VILLAGER_HUNGRY_DEATH_RATE = 0.6;
 
-        public Villager(int x, int y) : base(x, y, __VILLAGER_VELOCITY, __VILLAGER_BASE_BIRTH_RATE, __VILLAGER_BASE_DEATH_RATE) { }
+        public Villager(int x, int y, Building origin) : base(x, y, __VILLAGER_VELOCITY, __VILLAGER_BASE_BIRTH_RATE, __VILLAGER_BASE_DEATH_RATE, null, origin) { }
 
         public bool IsHungry()
         {

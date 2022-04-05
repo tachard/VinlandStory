@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VinlandStory.Buildings;
 
 namespace VinlandStory
 {
@@ -16,7 +17,7 @@ namespace VinlandStory
         private int _wood;
         private int _maxWood;
 
-        public Lumberjack(int x, int y) : base(x, y, __LUMBER_VELOCITY, __LUMBER_BIRTH_RATE, __LUMBER_DEATH_RATE)
+        public Lumberjack(int x, int y, Building origin) : base(x, y, __LUMBER_VELOCITY, __LUMBER_BIRTH_RATE, __LUMBER_DEATH_RATE, null, origin)
         {
             _wood = 0;
             _maxWood = __LUMBER_MAX_WOOD_WEARABLE;

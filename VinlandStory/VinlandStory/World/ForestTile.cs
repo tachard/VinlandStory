@@ -11,7 +11,7 @@ namespace VinlandStory
         private static readonly Resources __FOREST_RESOURCES_MIN = new Resources(150, 0, 40);
         private static readonly Resources __FOREST_RESOURCES_MAX = new Resources(150, 0, 40);
 
-        public ForestTile(Random alea) : base(__FOREST_RESOURCES_MIN, __FOREST_RESOURCES_MAX, alea) { }
+        public ForestTile(Random alea, int x, int y) : base(__FOREST_RESOURCES_MIN, __FOREST_RESOURCES_MAX, alea, x, y) { }
 
         public override void PrintTile()
         {

@@ -16,10 +16,10 @@ namespace VinlandStory
         protected double _deathRate;
         protected bool _hunger;
         public Tile Goal { get; set; }
-        public Tile Origin { get; private set; }
+        public Building Origin { get; protected set; }
         protected bool _goingToGoal;
 
-        public Settler(int x, int y, int velocity, double BirthRate, double DeathRate, Tile goal, Tile origin) 
+        public Settler(int x, int y, int velocity, double BirthRate, double DeathRate, Tile goal, Building origin) 
         {
             _x = x;
             _y = y;
@@ -27,7 +27,7 @@ namespace VinlandStory
             _birthRate = BirthRate;
             _deathRate = DeathRate;
             _hunger = false;
-            _goingToGoal = true;
+            _goingToGoal = false;
             Goal = goal;
             Origin = origin;
         }
@@ -73,23 +73,27 @@ namespace VinlandStory
             _deathRate = nvDeath;
         }
 
-        public void Move()
+        public void Move(Random r)
         {
             if (_goingToGoal)
                 MakeStep(Goal);
             else
-                MakeStep(Origin);
+            {
+                Tile origin = new BuildingTile(r, Origin);
+                MakeStep(origin);
+            }
+                
         }
         private void MakeStep(Tile goal)
         {
-            int MoveDist = (goal.getX() - getX()) * (goal.getX() - getX()) + (goal.getY() - getY()) * (goal.getY() - getY());
+            int MoveDist = (goal.X - getX()) * (goal.X - getX()) + (goal.Y - getY()) * (goal.Y - getY());
             int bestX = 0;
             int bestY = 0;
             for (int i = -1; i <= 1; i++)
             {
                 for (int j = -1; i <= 1; j++)
                 {
-                    int afterPotentialMoveDist = (Objective.getX() - getX() - i) * (Objective.getX() - getX() - i) + (Objective.getY() - getY() - j) * (Objective.getY() - getY() - j);
+                    int afterPotentialMoveDist = (goal.X - getX() - i) * (goal.X - getX() - i) + (goal.Y - getY() - j) * (goal.Y - getY() - j);
                     if (afterPotentialMoveDist < MoveDist)
                     {
                         MoveDist = afterPotentialMoveDist;
@@ -109,6 +113,9 @@ namespace VinlandStory
         {
             return r.NextDouble() < _birthRate;
         }
-        public abstract bool Eat(bool hasEaten);
+        public void Eat(bool hasEaten)
+        {
+            _hunger = false;
+        }
     }
 }

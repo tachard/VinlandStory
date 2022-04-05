@@ -8,8 +8,8 @@ namespace VinlandStory
 {
     class World
     {
-        public static readonly int __LENGTH = 60;
-        public static readonly int __WIDTH = 180;
+        public static readonly int __LENGTH = 30;
+        public static readonly int __WIDTH = 30;
         public int Length { get; set; }
         public int Width { get; set; }
         public Tile[,] Tiles;
@@ -45,16 +45,16 @@ namespace VinlandStory
                     switch (diceroll)
                     {
                         case 0:
-                            Tiles[i, j] = new MeadowTile(r);
+                            Tiles[i, j] = new MeadowTile(r, i, j);
                             break;
                         case 1:
-                            Tiles[i, j] = new MeadowTile(r);
+                            Tiles[i, j] = new MeadowTile(r, i, j);
                             break;
                         case 2:
-                            Tiles[i, j] = new ForestTile(r);
+                            Tiles[i, j] = new ForestTile(r, i, j);
                             break;
                         case 3:
-                            Tiles[i, j] = new DepositTile(r);
+                            Tiles[i, j] = new DepositTile(r, i, j);
                             break;
                     }
                 }
@@ -63,7 +63,7 @@ namespace VinlandStory
             {
                 for(int j = 0; j < 25; j++)
                 {
-                    UpdateTile(Length / 2 - 5 + i, Width / 2 - 12 + j, new MeadowTile(r));
+                    UpdateTile(Length / 2 - 5 + i, Width / 2 - 12 + j, new MeadowTile(r, i, j));
                 }
             }
         }
