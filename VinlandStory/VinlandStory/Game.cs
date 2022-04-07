@@ -33,7 +33,8 @@ namespace VinlandStory
             _world = new World(_rand);
             _settlers = new List<Settler>();
             _buildings = new List<Building>();
-            _resourcesOwned = new Resources(100, 100, 100);
+            //Compenser la construction de la première cabane de bâtisseurs
+            _resourcesOwned = new Resources(120, 105, 100);
 
             Longhouse mainBuilding = new Longhouse(_world.Length / 2 - 1, _world.Width / 2 - 1);
             this.build(mainBuilding, new Builder(_world.Length / 2 - 1, _world.Width / 2 - 1, mainBuilding));
@@ -86,14 +87,16 @@ namespace VinlandStory
                         unoccupiedBuilders.Add(builder);
                 }
             }
-            Console.WriteLine("Voici ce que vous pouvez faire : ");
-            Console.WriteLine("- Tapez c - Construire un bâtiment. {0}/{1} bâtisseur.s disponibles",unoccupiedBuilders.Count(),totalBuilders);
-            Console.WriteLine("- Tapez i - Révélez les ressources de la case");
-            Console.WriteLine("- Tapez une autre touche pour passer");
+            
             char k;
             bool action;
             do
             {
+                Console.WriteLine("Voici ce que vous pouvez faire : ");
+                Console.WriteLine("- Tapez c - Construire un bâtiment. {0}/{1} bâtisseur.s disponibles", unoccupiedBuilders.Count(), totalBuilders);
+                Console.WriteLine("- Tapez i - Révélez les ressources de la case");
+                Console.WriteLine("- Tapez une autre touche pour passer");
+
                 k = Console.ReadKey().KeyChar;
                 switch (k)
                 {
@@ -116,7 +119,6 @@ namespace VinlandStory
             CheckHunger();
             CheckLife();
             Move();
-            
         }
 
         private void endGame() { }
@@ -124,7 +126,7 @@ namespace VinlandStory
         private bool chooseBuildOption(Builder b)
         {
             Console.WriteLine();
-            Console.WriteLine("Choisissez un bâtiment à construire (tapez le numéro correspondant tout en sélectionnant la case où il sera mis) :");
+            Console.WriteLine("Choisissez un bâtiment à construire (tapez le numéro) :");
             Console.WriteLine("0 - Retour");
             Console.WriteLine("1 - Cabane des bâtisseurs");
             Console.WriteLine("Coût :" + BuildersHouse.__BUILDERSHOUSE_COST.ToString());
@@ -139,20 +141,36 @@ namespace VinlandStory
             {
                 k = Console.ReadKey().KeyChar;
             } while (k != '0' && k != '1' && k != '2' && k != '3' && k != '4');
+
+            int ligne=0;
+            int colonne=0;
+            if (k != '0')
+            {
+                Console.WriteLine();
+                do
+                {
+                    Console.Write("Choisissez la ligne : ");
+                    ligne = int.Parse(Console.ReadLine()) - 1;
+                    Console.Write("Choisissez la colonne : ");
+                    colonne = int.Parse(Console.ReadLine()) - 1;
+                } while (ligne < 0 || ligne >= _world.Length || colonne < 0 || colonne >= _world.Width);
+            }
+
             switch (k)
             {
                 case '0':
                     return false;
                 case '1':
-                    return build(new BuildersHouse(Console.CursorTop - 2, Console.CursorLeft),b);
+                    return build(new BuildersHouse(ligne-1, colonne-1),b);
                 case '2':
-                    return build(new HuntersHut(Console.CursorTop - 2, Console.CursorLeft), b);
+                    return build(new HuntersHut(ligne-1, colonne-1), b);
                 case '3':
-                    return build(new Workshop(Console.CursorTop - 2, Console.CursorLeft), b);
+                    return build(new Workshop(ligne-1, colonne-1), b);
                 case '4':
-                    return build(new Mine(Console.CursorTop - 2, Console.CursorLeft), b);
+                    return build(new Mine(ligne-1, colonne-1), b);
+                default:
+                    return false;
             }
-            return false;
         }
         private bool build(Building build, Builder b)
         {
@@ -163,7 +181,7 @@ namespace VinlandStory
             }
 
             World tmp = _world;
-            _buildings.Add(build);
+            
             for (int i = 0; i <build.getWidth(); i++)
             {
                 for (int j = 0; j < build.getLength(); j++)
@@ -199,10 +217,14 @@ namespace VinlandStory
                         break;
                 }
             }
-        b.Goal = new BuildersHouse(Console.CursorTop - 2, Console.CursorLeft);
+            _buildings.Add(build);
+            _resourcesOwned.Wood -= build.getCost().Wood ;
+            _resourcesOwned.Stone -= build.getCost().Stone;
+            _resourcesOwned.Food -= build.getCost().Food;
+            b.Goal = build;
         return true;
         }
-        //TO DO: Repair showInfos
+
         private void showInfos(int x, int y)
         {
             Console.WriteLine("Position : (x,y)=({0},{1})", x, y);
@@ -239,18 +261,23 @@ namespace VinlandStory
 
         private void CheckLife()
         {
+            Settler[] tmp = new Settler[_settlers.Count];
+            _settlers.CopyTo(tmp);
             //Check if still alive
-            foreach(Settler s in _settlers)
+            for(int i=0;i<_settlers.Count;i++)
             {
-                if (!s.Live(_rand))
-                    _settlers.Remove(s);
+                if (!_settlers[i].Live(_rand))
+                    tmp[i]=null;
             }
+            _settlers = tmp.ToList();
+            List<Settler> tmp2 = new List<Settler>(_settlers);
             //Check if gives birth
             foreach(Settler s in _settlers)
             {
                 if (s.GiveBirth(_rand))
-                    _settlers.Add(new Villager(s.getX(), s.getY(), _buildings[0]));
+                    tmp2.Add(new Villager(s.getX(), s.getY(), _buildings[0]));
             }
+            _settlers = tmp2;
         }
     }
 }
