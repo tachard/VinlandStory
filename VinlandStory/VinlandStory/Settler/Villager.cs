@@ -16,9 +16,13 @@ namespace VinlandStory
         public static readonly double __VILLAGER_HUNGRY_DEATH_RATE = 0.6;
 
         public Villager(int x, int y, Building origin) : base(x, y, __VILLAGER_VELOCITY, __VILLAGER_BASE_BIRTH_RATE, __VILLAGER_BASE_DEATH_RATE, null, origin) { }
-
-        public bool IsHungry()
+        /// <summary>
+        /// Check if 
+        /// </summary>
+        /// <returns></returns>
+        public void Eat(bool hasEaten)
         {
+            _hunger = !hasEaten;
             if (_hunger)
             {
                 this.setBirth(__VILLAGER_HUNGRY_BIRTH_RATE);
@@ -29,7 +33,6 @@ namespace VinlandStory
                 this.setBirth(__VILLAGER_BASE_BIRTH_RATE);
                 this.setDeath(__VILLAGER_BASE_DEATH_RATE);
             }
-            return _hunger;
         }
     }
 }

@@ -17,7 +17,10 @@ namespace VinlandStory
         public Builder(int x, int y, Building origin) : base(x, y, __BUILDER_VELOCITY, __BUILDER_BIRTH_RATE, __BUILDER_DEATH_RATE, null, origin){
             Goal = null;
         }
-
+        /// <summary>
+        /// Check if occupied
+        /// </summary>
+        /// <returns></returns>
         public bool isOccupied()
         {
             return Goal != null;

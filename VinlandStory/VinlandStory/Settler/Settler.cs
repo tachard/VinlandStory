@@ -122,19 +122,5 @@ namespace VinlandStory
         {
             return r.NextDouble() < _birthRate;
         }
-        public void Eat(bool hasEaten)
-        {
-            _hunger = !hasEaten;
-            if (_hunger)
-            {
-                setBirth(getBirth() - 0.5);
-                setDeath(getDeath() + 0.5);
-            }
-            else
-            {
-                setBirth(getBirth() + 0.5);
-                setDeath(getDeath() - 0.5);
-            }
-        }
     }
 }

@@ -31,12 +31,19 @@ namespace VinlandStory
         {
             _wood = nvWood;
         }
-
+        /// <summary>
+        /// Check if lumberjack is full of wood
+        /// </summary>
+        /// <returns>true if full</returns>
         public bool isFull()
         {
             return (_wood == _maxWood);
         }
-
+        /// <summary>
+        /// Collect a certain amount of wood
+        /// </summary>
+        /// <param name="numberWood">Number of collected wood</param>
+        /// <returns>true if collected</returns>
         public bool cutWood(int numberWood)
         {
             if (isFull())  

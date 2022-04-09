@@ -18,7 +18,10 @@ namespace VinlandStory
             Stone = stone;
             Food = food;
         }
-
+        /// <summary>
+        /// Return the amount of each resource in variable
+        /// </summary>
+        /// <returns>String</returns>
         public override string ToString()
         {
             return $"Bois : {Wood}\tPierre : {Stone}\tNourriture : {Food}";

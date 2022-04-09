@@ -31,10 +31,19 @@ namespace VinlandStory
         {
             _stone = nvStone;
         }
+        /// <summary>
+        /// Check if miner is full with resources
+        /// </summary>
+        /// <returns>true if full</returns>
         public bool IsFull()
         {
             return (_stone == _maxStone);
         }
+        /// <summary>
+        /// Collect stone
+        /// </summary>
+        /// <param name="numberStone">Number of collected stone</param>
+        /// <returns>true if collected</returns>
         public bool pickStone(int numberStone)
         {
             if (IsFull() == true)

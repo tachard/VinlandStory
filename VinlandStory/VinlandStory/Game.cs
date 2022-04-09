@@ -38,9 +38,9 @@ namespace VinlandStory
             _resourcesOwned = new Resources(120, 105, 100);
 
             Longhouse mainBuilding = new Longhouse(_world.Length / 2 - 1, _world.Width / 2 - 1);
-            this.build(mainBuilding, new Builder(_world.Length / 2 - 1, _world.Width / 2 - 1, mainBuilding));
+            this.Build(mainBuilding, new Builder(_world.Length / 2 - 1, _world.Width / 2 - 1, mainBuilding));
             BuildersHouse buildHouse = new BuildersHouse(_world.Length / 2 - 2, _world.Width / 2 - 2);
-            this.build(buildHouse, new Builder(_world.Length / 2 - 2, _world.Width / 2 - 2, buildHouse));
+            this.Build(buildHouse, new Builder(_world.Length / 2 - 2, _world.Width / 2 - 2, buildHouse));
 
             //Game itself
             while (_currentTurn < __MAX_TURNS && _settlers.Count>0)
@@ -104,7 +104,7 @@ namespace VinlandStory
             switch (k)
             {
                 case 'c':
-                    action = chooseBuildOption(unoccupiedBuilders[0]);
+                    action = ChooseBuildOption(unoccupiedBuilders[0]);
                     if (action)
                         unoccupiedBuilders.RemoveAt(0);
                     break;
@@ -125,7 +125,7 @@ namespace VinlandStory
             Move();
         }
         /// <summary>
-        /// Show the end of game
+        /// Show the end of game and ask for a new one
         /// </summary>
         private void endGame()
         {
@@ -160,8 +160,12 @@ namespace VinlandStory
                     break;
             }
         }
-        
-        private bool chooseBuildOption(Builder b)
+        /// <summary>
+        /// Ask the player what to build
+        /// </summary>
+        /// <param name="b">Builder that will build</param>
+        /// <returns>Boolean if build is possible</returns>
+        private bool ChooseBuildOption(Builder b)
         {
             Console.WriteLine();
             Console.WriteLine("Choisissez un bâtiment à construire (tapez le numéro) :");
@@ -199,19 +203,24 @@ namespace VinlandStory
                 case '0':
                     return false;
                 case '1':
-                    return build(new BuildersHouse(ligne+1, colonne+1),b);
+                    return Build(new BuildersHouse(ligne+1, colonne+1),b);
                 case '2':
-                    return build(new HuntersHut(ligne+1, colonne+1), b);
+                    return Build(new HuntersHut(ligne+1, colonne+1), b);
                 case '3':
-                    return build(new Workshop(ligne+1, colonne+1), b);
+                    return Build(new Workshop(ligne+1, colonne+1), b);
                 case '4':
-                    return build(new Mine(ligne+1, colonne+1), b);
+                    return Build(new Mine(ligne+1, colonne+1), b);
                 default:
                     return false;
             }
         }
-
-        private bool build(Building build, Builder b)
+        /// <summary>
+        /// Look if building is possible and build if possible
+        /// </summary>
+        /// <param name="build">Building to be built</param>
+        /// <param name="b">Builder that will build</param>
+        /// <returns>Boolean if build is possible</returns>
+        private bool Build(Building build, Builder b)
         {
             if (_resourcesOwned.Wood < build.getCost().Wood || _resourcesOwned.Stone < build.getCost().Stone || _resourcesOwned.Food < build.getCost().Food)
             {
@@ -263,33 +272,45 @@ namespace VinlandStory
             b.Goal = build;
         return true;
         }
-
+        /// <summary>
+        /// Show further informations about a certain tile
+        /// </summary>
+        /// <param name="x">Row of tile (start to 1)</param>
+        /// <param name="y">Column of tile (start to 1)</param>
         private void showInfos(int x, int y)
         {
             Console.WriteLine("Position : (x,y)=({0},{1})", x, y);
-            Console.WriteLine(_world.Tiles[x, y].Available);
+            Console.WriteLine(_world.Tiles[x-1, y-1].Available);
             
-            if(_world.Tiles[x,y] is BuildingTile)
+            if(_world.Tiles[x-1,y-1] is BuildingTile)
             {
-                BuildingTile tile = _world.Tiles[x, y] as BuildingTile;
+                BuildingTile tile = _world.Tiles[x-1, y-1] as BuildingTile;
                 Console.WriteLine(tile.Build);
             }
         }
-
+        /// <summary>
+        /// Make every settler eat if possible
+        /// </summary>
         private void CheckHunger()
         {
             foreach(Settler s in _settlers)
             {
-                if (_resourcesOwned.Food > 0)
+                if (s is Villager)
                 {
-                    s.Eat(true);
-                    _resourcesOwned.Food -= 1;
+                    Villager v = (Villager)s;
+                    if (_resourcesOwned.Food > 0)
+                    {
+                        v.Eat(true);
+                        _resourcesOwned.Food -= 1;
+                    }
+                    else
+                        v.Eat(false);
                 }
-                else
-                    s.Eat(false);
             }
         }
-
+        /// <summary>
+        /// Move every settler
+        /// </summary>
         private void Move()
         {
             foreach (Settler s in _settlers)
@@ -297,7 +318,9 @@ namespace VinlandStory
                 s.Move(_rand);
             }
         }
-
+        /// <summary>
+        /// Check if settlers are not dead and they give birth
+        /// </summary>
         private void CheckLife()
         {
             Settler[] tmp = new Settler[_settlers.Count];
