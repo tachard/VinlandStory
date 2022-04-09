@@ -17,7 +17,9 @@ namespace VinlandStory
         private List<Building> _buildings;
         private Resources _resourcesOwned;
         private Random _rand;
-
+        /// <summary>
+        /// Create a game and play it
+        /// </summary>
         public Game()
         {
             //Prepare Console
@@ -41,27 +43,17 @@ namespace VinlandStory
             BuildersHouse buildHouse = new BuildersHouse(_world.Length / 2 - 2, _world.Width / 2 - 2);
             this.build(buildHouse, new Builder(_world.Length / 2 - 2, _world.Width / 2 - 2, buildHouse));
 
-            int nbVillagers = CountVillagers();
+            int nbVillagers = _settlers.Count;
             //Game itself
             while (_currentTurn < __MAX_TURNS && nbVillagers>0)
             {
                 this.playTurn();
-                nbVillagers = CountVillagers();
+                nbVillagers = _settlers.Count;
             }
 
             this.endGame();
         }
 
-        private int CountVillagers()
-        {
-            int nb = 0;
-            foreach(Settler s in _settlers)
-            {
-                if (s is Villager)
-                    nb++;
-            }
-            return nb;
-        }
         private void begin()
         {
             Console.ForegroundColor = ConsoleColor.Red;

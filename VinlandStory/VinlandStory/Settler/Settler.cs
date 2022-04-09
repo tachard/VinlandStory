@@ -130,6 +130,11 @@ namespace VinlandStory
                 setBirth(getBirth() - 0.5);
                 setDeath(getDeath() + 0.5);
             }
+            else
+            {
+                setBirth(getBirth() + 0.5);
+                setDeath(getDeath() - 0.5);
+            }
         }
     }
 }
