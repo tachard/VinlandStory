@@ -41,15 +41,27 @@ namespace VinlandStory
             BuildersHouse buildHouse = new BuildersHouse(_world.Length / 2 - 2, _world.Width / 2 - 2);
             this.build(buildHouse, new Builder(_world.Length / 2 - 2, _world.Width / 2 - 2, buildHouse));
 
+            int nbVillagers = CountVillagers();
             //Game itself
-            while (_currentTurn < __MAX_TURNS)
+            while (_currentTurn < __MAX_TURNS && nbVillagers>0)
             {
                 this.playTurn();
+                nbVillagers = CountVillagers();
             }
 
             this.endGame();
         }
 
+        private int CountVillagers()
+        {
+            int nb = 0;
+            foreach(Settler s in _settlers)
+            {
+                if (s is Villager)
+                    nb++;
+            }
+            return nb;
+        }
         private void begin()
         {
             Console.ForegroundColor = ConsoleColor.Red;
@@ -90,30 +102,29 @@ namespace VinlandStory
             
             char k;
             bool action;
-            do
-            {
-                Console.WriteLine("Voici ce que vous pouvez faire : ");
-                Console.WriteLine("- Tapez c - Construire un bâtiment. {0}/{1} bâtisseur.s disponibles", unoccupiedBuilders.Count(), totalBuilders);
-                Console.WriteLine("- Tapez i - Révélez les ressources de la case");
-                Console.WriteLine("- Tapez une autre touche pour passer");
+            Console.WriteLine("Voici ce que vous pouvez faire : ");
+            Console.WriteLine("- Tapez c - Construire un bâtiment. {0}/{1} bâtisseur.s disponibles", unoccupiedBuilders.Count(), totalBuilders);
+            Console.WriteLine("- Tapez i - Révélez les ressources de la case");
+            Console.WriteLine("- Tapez une autre touche pour passer");
 
-                k = Console.ReadKey().KeyChar;
-                switch (k)
-                {
-                    case 'c':
-                        action = chooseBuildOption(unoccupiedBuilders[0]);
-                        if (action)
-                            unoccupiedBuilders.RemoveAt(0);
-                        break;
-                    case 'i':
-                        Console.Write("Entrez la ligne de la case :");
-                        int ligne = int.Parse(Console.ReadLine());
-                        Console.Write("Entrez la ligne de la case :");
-                        int colonne = int.Parse(Console.ReadLine());
-                        showInfos(ligne,colonne);
-                        break;
-                }
-            } while (k != 'c' || k=='c'&&unoccupiedBuilders.Count() > 0);
+            k = Console.ReadKey().KeyChar;
+            switch (k)
+            {
+                case 'c':
+                    action = chooseBuildOption(unoccupiedBuilders[0]);
+                    if (action)
+                        unoccupiedBuilders.RemoveAt(0);
+                    break;
+                case 'i':
+                    Console.Write("Entrez la ligne de la case :");
+                    int ligne = int.Parse(Console.ReadLine());
+                    Console.Write("Entrez la ligne de la case :");
+                    int colonne = int.Parse(Console.ReadLine());
+                    showInfos(ligne,colonne);
+                    break;
+                default:
+                    break;
+            }
 
             //Automatic behaviour
             CheckHunger();
@@ -153,7 +164,7 @@ namespace VinlandStory
                     ligne = int.Parse(Console.ReadLine()) - 1;
                     Console.Write("Choisissez la colonne : ");
                     colonne = int.Parse(Console.ReadLine()) - 1;
-                } while (ligne < 0 || ligne >= _world.Length || colonne < 0 || colonne >= _world.Width);
+                } while (ligne <= 0 || ligne > _world.Length || colonne <= 0 || colonne > _world.Width);
             }
 
             switch (k)
@@ -161,17 +172,18 @@ namespace VinlandStory
                 case '0':
                     return false;
                 case '1':
-                    return build(new BuildersHouse(ligne-1, colonne-1),b);
+                    return build(new BuildersHouse(ligne+1, colonne+1),b);
                 case '2':
-                    return build(new HuntersHut(ligne-1, colonne-1), b);
+                    return build(new HuntersHut(ligne+1, colonne+1), b);
                 case '3':
-                    return build(new Workshop(ligne-1, colonne-1), b);
+                    return build(new Workshop(ligne+1, colonne+1), b);
                 case '4':
-                    return build(new Mine(ligne-1, colonne-1), b);
+                    return build(new Mine(ligne+1, colonne+1), b);
                 default:
                     return false;
             }
         }
+
         private bool build(Building build, Builder b)
         {
             if (_resourcesOwned.Wood < build.getCost().Wood || _resourcesOwned.Stone < build.getCost().Stone || _resourcesOwned.Food < build.getCost().Food)
@@ -269,7 +281,9 @@ namespace VinlandStory
                 if (!_settlers[i].Live(_rand))
                     tmp[i]=null;
             }
-            _settlers = tmp.ToList();
+            _settlers = new List<Settler>(tmp);
+            _settlers.RemoveAll(x => x == null);
+
             List<Settler> tmp2 = new List<Settler>(_settlers);
             //Check if gives birth
             foreach(Settler s in _settlers)
@@ -277,7 +291,8 @@ namespace VinlandStory
                 if (s.GiveBirth(_rand))
                     tmp2.Add(new Villager(s.getX(), s.getY(), _buildings[0]));
             }
-            _settlers = tmp2;
+            _settlers = new List<Settler>(tmp2);
+            _settlers.RemoveAll(x => x == null);
         }
     }
 }

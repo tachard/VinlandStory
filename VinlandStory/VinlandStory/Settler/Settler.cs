@@ -62,7 +62,12 @@ namespace VinlandStory
         }
         public void setBirth(double nvBirth)
         {
-            _birthRate = nvBirth;
+            if (nvBirth < 0)
+                _birthRate = 0;
+            else if (nvBirth > 1)
+                _birthRate = 1;
+            else
+                _birthRate = nvBirth;
         }
         public double getDeath()
         {
@@ -70,6 +75,10 @@ namespace VinlandStory
         }
         public void setDeath(double nvDeath)
         {
+            if (nvDeath < 0)
+                _deathRate = 0;
+            else if (nvDeath > 1)
+                _deathRate = 1;
             _deathRate = nvDeath;
         }
 
@@ -87,11 +96,11 @@ namespace VinlandStory
         private void MakeStep(Tile goal)
         {
             int MoveDist = (goal.X - getX()) * (goal.X - getX()) + (goal.Y - getY()) * (goal.Y - getY());
-            int bestX = 0;
-            int bestY = 0;
+            int bestX = getX();
+            int bestY = getY();
             for (int i = -1; i <= 1; i++)
             {
-                for (int j = -1; i <= 1; j++)
+                for (int j = -1; j <= 1; j++)
                 {
                     int afterPotentialMoveDist = (goal.X - getX() - i) * (goal.X - getX() - i) + (goal.Y - getY() - j) * (goal.Y - getY() - j);
                     if (afterPotentialMoveDist < MoveDist)
@@ -102,8 +111,8 @@ namespace VinlandStory
                     }
                 }
             }
-            _x = bestX;
-            _y = bestY;
+            setX(bestX);
+            setY(bestY);
         }
         public bool Live(Random r)
         {
@@ -115,7 +124,12 @@ namespace VinlandStory
         }
         public void Eat(bool hasEaten)
         {
-            _hunger = false;
+            _hunger = !hasEaten;
+            if (_hunger)
+            {
+                setBirth(getBirth() - 0.5);
+                setDeath(getDeath() + 0.5);
+            }
         }
     }
 }
