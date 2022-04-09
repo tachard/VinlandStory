@@ -35,7 +35,6 @@ namespace VinlandStory
             _world = new World(_rand);
             _settlers = new List<Settler>();
             _buildings = new List<Building>();
-            //Compenser la construction de la première cabane de bâtisseurs
             _resourcesOwned = new Resources(120, 105, 100);
 
             Longhouse mainBuilding = new Longhouse(_world.Length / 2 - 1, _world.Width / 2 - 1);
@@ -43,17 +42,17 @@ namespace VinlandStory
             BuildersHouse buildHouse = new BuildersHouse(_world.Length / 2 - 2, _world.Width / 2 - 2);
             this.build(buildHouse, new Builder(_world.Length / 2 - 2, _world.Width / 2 - 2, buildHouse));
 
-            int nbVillagers = _settlers.Count;
             //Game itself
-            while (_currentTurn < __MAX_TURNS && nbVillagers>0)
+            while (_currentTurn < __MAX_TURNS && _settlers.Count>0)
             {
                 this.playTurn();
-                nbVillagers = _settlers.Count;
             }
 
             this.endGame();
         }
-
+        /// <summary>
+        /// Show pre-game text
+        /// </summary>
         private void begin()
         {
             Console.ForegroundColor = ConsoleColor.Red;
@@ -66,7 +65,9 @@ namespace VinlandStory
 
             Console.Clear();
         }
-
+        /// <summary>
+        /// Play a complete turn : user choice + settlers' automation
+        /// </summary>
         private void playTurn()
         {
             //Beginning of turn
@@ -123,8 +124,42 @@ namespace VinlandStory
             CheckLife();
             Move();
         }
+        /// <summary>
+        /// Show the end of game
+        /// </summary>
+        private void endGame()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("FIN DE PARTIE");
+            Console.ResetColor();
+            if (_settlers.Count == 0)
+            {
+                Console.WriteLine("Malheureusement, votre tribu Viking n'a pas survécu aux dures conditions de leur environnment ...");
+            }
+            else
+            {
+                Console.WriteLine("Vous avez réussi là où tous ont échoué. Vous serez célébrés pour les siècles à venir comme le grand conquérant Viking !");
+            }
+            Console.WriteLine();
+            Console.WriteLine("Vos ressouces en fin de partie :");
+            Console.WriteLine(_resourcesOwned.ToString() + "\tColons : " + _settlers.Count);
 
-        private void endGame() { }
+            Console.WriteLine();
+            Console.WriteLine("Voulez-vous refaire une partie (o/n)");
+            char k;
+            do
+            {
+                k = Console.ReadKey().KeyChar;
+            } while (k != 'y' && k != 'n');
+            switch (k)
+            {
+                case 'y':
+                    Game g2 = new Game();
+                    break;
+                case 'n':
+                    break;
+            }
+        }
         
         private bool chooseBuildOption(Builder b)
         {
