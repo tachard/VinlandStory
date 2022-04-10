@@ -128,7 +128,7 @@ namespace VinlandStory
                 case 'i':
                     Console.Write("Entrez la ligne de la case :");
                     int ligne = int.Parse(Console.ReadLine());
-                    Console.Write("Entrez la ligne de la case :");
+                    Console.Write("Entrez la colonne de la case :");
                     int colonne = int.Parse(Console.ReadLine());
                     ShowInfos(ligne, colonne);
                     break;
