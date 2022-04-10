@@ -17,6 +17,7 @@ namespace VinlandStory
         private List<Building> _buildings;
         private Resources _resourcesOwned;
         private Random _rand;
+
         /// <summary>
         /// Create a game and play it
         /// </summary>
@@ -280,11 +281,11 @@ namespace VinlandStory
         private void showInfos(int x, int y)
         {
             Console.WriteLine("Position : (x,y)=({0},{1})", x, y);
-            Console.WriteLine(_world.Tiles[x-1, y-1].Available);
+            Console.WriteLine(_world[x-1, y-1].Available);
             
-            if(_world.Tiles[x-1,y-1] is BuildingTile)
+            if(_world[x-1,y-1] is BuildingTile)
             {
-                BuildingTile tile = _world.Tiles[x-1, y-1] as BuildingTile;
+                BuildingTile tile = _world[x-1, y-1] as BuildingTile;
                 Console.WriteLine(tile.Build);
             }
         }

@@ -31,6 +31,7 @@ namespace VinlandStory
         {
             _wood = nvWood;
         }
+
         /// <summary>
         /// Check if lumberjack is full of wood
         /// </summary>

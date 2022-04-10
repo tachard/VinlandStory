@@ -31,6 +31,7 @@ namespace VinlandStory
         {
             _stone = nvStone;
         }
+
         /// <summary>
         /// Check if miner is full with resources
         /// </summary>

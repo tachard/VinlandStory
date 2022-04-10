@@ -24,7 +24,9 @@ namespace VinlandStory
             X = x;
             Y = y;
         }
-
+        /// <summary>
+        /// Print a tile with a certain foreground, blackground color and character (utf-8 needed)
+        /// </summary>
         public abstract void PrintTile();
     }
 }

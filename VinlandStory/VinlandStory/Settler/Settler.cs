@@ -82,6 +82,10 @@ namespace VinlandStory
             _deathRate = nvDeath;
         }
 
+        /// <summary>
+        /// Make a move towards a goal.
+        /// </summary>
+        /// <param name="r">Random type variable</param>
         public void Move(Random r)
         {
             if (_goingToGoal)
@@ -93,6 +97,10 @@ namespace VinlandStory
             }
                 
         }
+        /// <summary>
+        /// Choose the best way to go to goal.
+        /// </summary>
+        /// <param name="goal">Goal Tile</param>
         private void MakeStep(Tile goal)
         {
             int MoveDist = (goal.X - getX()) * (goal.X - getX()) + (goal.Y - getY()) * (goal.Y - getY());
@@ -114,10 +122,20 @@ namespace VinlandStory
             setX(bestX);
             setY(bestY);
         }
+        /// <summary>
+        /// Choose randomly (knowing probability to die) if settler dies.
+        /// </summary>
+        /// <param name="r">Random type variable</param>
+        /// <returns>False if dies</returns>
         public bool Live(Random r)
         {
             return r.NextDouble() > _deathRate;
         }
+        /// <summary>
+        /// Choose randomly (knowing probability of giving birth) if settler gives birth.
+        /// </summary>
+        /// <param name="r">Random type variable</param>
+        /// <returns>true if gives birth</returns>
         public bool GiveBirth(Random r)
         {
             return r.NextDouble() < _birthRate;

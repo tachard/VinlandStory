@@ -17,9 +17,8 @@ namespace VinlandStory
 
         public Villager(int x, int y, Building origin) : base(x, y, __VILLAGER_VELOCITY, __VILLAGER_BASE_BIRTH_RATE, __VILLAGER_BASE_DEATH_RATE, null, origin) { }
         /// <summary>
-        /// Check if 
+        /// Make villager eat. If no, villager may die.
         /// </summary>
-        /// <returns></returns>
         public void Eat(bool hasEaten)
         {
             _hunger = !hasEaten;
