@@ -7,13 +7,14 @@ using VinlandStory.Buildings;
 
 namespace VinlandStory
 {
-    class BuildingTile:Tile
+    class BuildingTile : Tile
     {
         private static readonly Resources __BUILDING_RESOURCES_MIN = new Resources(0, 0, 0);
         private static readonly Resources __BUILDING_RESOURCES_MAX = new Resources(0, 0, 0);
         public Building Build { get; set; }
 
-        public BuildingTile(Random alea, Building build) : base(__BUILDING_RESOURCES_MIN, __BUILDING_RESOURCES_MAX, alea, build.getX(), build.getY()) {
+        public BuildingTile(Random alea, Building build) : base(__BUILDING_RESOURCES_MIN, __BUILDING_RESOURCES_MAX, alea, build.X, build.Y)
+        {
             Build = build;
         }
 

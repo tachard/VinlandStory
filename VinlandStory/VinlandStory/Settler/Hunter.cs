@@ -9,41 +9,50 @@ namespace VinlandStory
 {
     class Hunter : Settler
     {
-        public static readonly int __HUNTER_VELOCITY = 1;
         public static readonly double __HUNTER_BIRTH_RATE = 0;
         public static readonly double __HUNTER_DEATH_RATE = 0;
         public static readonly int __HUNTER_MAX_FOOD_WEARABLE = 400;
         private int _food;
         private int _maxFood;
-        
-        public Hunter(int x, int y, Building origin) : base(x, y, __HUNTER_VELOCITY, __HUNTER_BIRTH_RATE, __HUNTER_DEATH_RATE, null, origin)
+
+        public Hunter(int x, int y, Building origin) : base(x, y, __HUNTER_BIRTH_RATE, __HUNTER_DEATH_RATE, null, origin)
         {
             _food = 0;
             _maxFood = __HUNTER_MAX_FOOD_WEARABLE;
         }
-        public int getFood()
-        {
-            return _food;
-        }
-        public void setFood(int nvFood)
-        {
-            _food = nvFood;
-        }
+        public int Food { get => _food; set => _food = value; }
+        /// <summary>
+        /// Check if hunter is full
+        /// </summary>
+        /// <returns>True if full</returns>
         public bool IsFull()
         {
             return (_food == _maxFood);
         }
-
-        public bool collectFood(int numberFood)
+        /// <summary>
+        /// Collect Food. If complete, collect nothing.
+        /// </summary>
+        /// <param name="numberFood">Number of potentially picked food</param>
+        /// <returns>Number of really collected food</returns>
+        public int CollectFood(int numberFood)
         {
-            if (IsFull() == true)
+            if (IsFull())
             {
-                return false;
+                return 0;
             }
             else
             {
-                setFood(numberFood);
-                return true;
+                if (Food + numberFood > _maxFood)
+                {
+                    int picked = _maxFood - Food;
+                    Food = _maxFood;
+                    return picked;
+                }
+                else
+                {
+                    Food += numberFood;
+                    return numberFood;
+                }
             }
         }
     }

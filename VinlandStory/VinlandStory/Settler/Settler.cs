@@ -11,7 +11,6 @@ namespace VinlandStory
     {
         protected int _x;
         protected int _y;
-        protected int _velocity;
         protected double _birthRate;
         protected double _deathRate;
         protected bool _hunger;
@@ -19,11 +18,10 @@ namespace VinlandStory
         public Building Origin { get; protected set; }
         protected bool _goingToGoal;
 
-        public Settler(int x, int y, int velocity, double BirthRate, double DeathRate, Tile goal, Building origin) 
+        public Settler(int x, int y, double BirthRate, double DeathRate, Tile goal, Building origin)
         {
             _x = x;
             _y = y;
-            _velocity = velocity;
             _birthRate = BirthRate;
             _deathRate = DeathRate;
             _hunger = false;
@@ -32,54 +30,35 @@ namespace VinlandStory
             Origin = origin;
         }
 
-        public int getX()
+        public int X { get => _x; set => _x = value; }
+
+        public int Y { get => _y; set => _y = value; }
+
+        public double Birth
         {
-            return _x;
+            get => _birthRate;
+            set
+            {
+                if (value < 0)
+                    _birthRate = 0;
+                else if (value > 1)
+                    _birthRate = 1;
+                else
+                    _birthRate = value;
+            }
         }
-        public void setX(int nvX)
+
+        public double Death
         {
-            _x = nvX;
-        }
-        public int getY()
-        {
-            return _y;
-        }
-        public void setY(int nvY)
-        {
-            _y = nvY;
-        }
-        public int getVelocity()
-        {
-            return _velocity;
-        }
-        public void setVelocity(int nvVelocity)
-        {
-            _velocity = nvVelocity;
-        }
-        public double getBirth()
-        {
-            return _birthRate;
-        }
-        public void setBirth(double nvBirth)
-        {
-            if (nvBirth < 0)
-                _birthRate = 0;
-            else if (nvBirth > 1)
-                _birthRate = 1;
-            else
-                _birthRate = nvBirth;
-        }
-        public double getDeath()
-        {
-            return _deathRate;
-        }
-        public void setDeath(double nvDeath)
-        {
-            if (nvDeath < 0)
-                _deathRate = 0;
-            else if (nvDeath > 1)
-                _deathRate = 1;
-            _deathRate = nvDeath;
+            get => _deathRate;
+            set
+            {
+                if (value < 0)
+                    _deathRate = 0;
+                else if (value > 1)
+                    _deathRate = 1;
+                _deathRate = value;
+            }
         }
 
         /// <summary>
@@ -89,13 +68,15 @@ namespace VinlandStory
         public void Move(Random r)
         {
             if (_goingToGoal)
+            {
                 MakeStep(Goal);
+            }
             else
             {
                 Tile origin = new BuildingTile(r, Origin);
                 MakeStep(origin);
             }
-                
+
         }
         /// <summary>
         /// Choose the best way to go to goal.
@@ -103,24 +84,24 @@ namespace VinlandStory
         /// <param name="goal">Goal Tile</param>
         private void MakeStep(Tile goal)
         {
-            int MoveDist = (goal.X - getX()) * (goal.X - getX()) + (goal.Y - getY()) * (goal.Y - getY());
-            int bestX = getX();
-            int bestY = getY();
+            int MoveDist = ((goal.X - X) * (goal.X - X)) + ((goal.Y - Y) * (goal.Y - Y));
+            int bestX = X;
+            int bestY = Y;
             for (int i = -1; i <= 1; i++)
             {
                 for (int j = -1; j <= 1; j++)
                 {
-                    int afterPotentialMoveDist = (goal.X - getX() - i) * (goal.X - getX() - i) + (goal.Y - getY() - j) * (goal.Y - getY() - j);
+                    int afterPotentialMoveDist = ((goal.X - X - i) * (goal.X - X - i)) + ((goal.Y - Y - j) * (goal.Y - Y - j));
                     if (afterPotentialMoveDist < MoveDist)
                     {
                         MoveDist = afterPotentialMoveDist;
-                        bestX = _x + i;
-                        bestY = _y + j;
+                        bestX = X + i;
+                        bestY = Y + j;
                     }
                 }
             }
-            setX(bestX);
-            setY(bestY);
+            X = bestX;
+            Y = bestY;
         }
         /// <summary>
         /// Choose randomly (knowing probability to die) if settler dies.

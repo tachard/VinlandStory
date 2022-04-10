@@ -10,6 +10,7 @@ namespace VinlandStory
     {
         public static readonly int __LENGTH = 30;
         public static readonly int __WIDTH = 30;
+
         public int Length { get; set; }
         public int Width { get; set; }
         private Tile[,] _tiles;
@@ -26,7 +27,7 @@ namespace VinlandStory
             private set
             {
                 if (i >= 0 && i < Length && j >= 0 && j < Width)
-                    _tiles[i, j]=value;
+                    _tiles[i, j] = value;
             }
         }
         public World(Random r)
@@ -34,7 +35,7 @@ namespace VinlandStory
             Length = __LENGTH;
             Width = __WIDTH;
             _tiles = new Tile[Length, Width];
-            this.generateWorld(r);
+            GenerateWorld(r);
         }
         /// <summary>
         /// Print the whole world on screen
@@ -43,7 +44,7 @@ namespace VinlandStory
         {
             for (int i = 0; i < Length; i++)
             {
-                for(int j= 0; j < Width; j++)
+                for (int j = 0; j < Width; j++)
                 {
                     _tiles[i, j].PrintTile();
                 }
@@ -55,7 +56,7 @@ namespace VinlandStory
         /// Fill the world with randomly chosen tiles
         /// </summary>
         /// <param name="r">Random type variable</param>
-        private void generateWorld(Random r)
+        private void GenerateWorld(Random r)
         {
             for (int i = 0; i < Length; i++)
             {
@@ -65,25 +66,25 @@ namespace VinlandStory
                     switch (diceroll)
                     {
                         case 0:
-                            _tiles[i, j] = new MeadowTile(r, i, j);
+                            this[i, j] = new MeadowTile(r, i, j);
                             break;
                         case 1:
-                            _tiles[i, j] = new MeadowTile(r, i, j);
+                            this[i, j] = new MeadowTile(r, i, j);
                             break;
                         case 2:
-                            _tiles[i, j] = new ForestTile(r, i, j);
+                            this[i, j] = new ForestTile(r, i, j);
                             break;
                         case 3:
-                            _tiles[i, j] = new DepositTile(r, i, j);
+                            this[i, j] = new DepositTile(r, i, j);
                             break;
                     }
                 }
             }
-            for(int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
-                for(int j = 0; j < 25; j++)
+                for (int j = 0; j < 25; j++)
                 {
-                    UpdateTile(Length / 2 - 5 + i, Width / 2 - 12 + j, new MeadowTile(r, i, j));
+                    UpdateTile((Length / 2) - 5 + i, (Width / 2) - 12 + j, new MeadowTile(r, i, j));
                 }
             }
         }

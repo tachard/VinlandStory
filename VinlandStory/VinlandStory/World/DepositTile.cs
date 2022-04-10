@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VinlandStory
 {
-    class DepositTile:Tile
+    class DepositTile : Tile
     {
         private static readonly Resources __DEPOSIT_RESOURCES_MIN = new Resources(0, 150, 0);
         private static readonly Resources __DEPOSIT_RESOURCES_MAX = new Resources(0, 150, 0);

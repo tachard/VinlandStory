@@ -28,7 +28,7 @@ namespace VinlandStory
             Console.Title = "Vinland Story";
 
             //Pre-game function
-            this.begin();
+            Begin();
 
             //Intiate game
             _rand = new Random();
@@ -38,23 +38,37 @@ namespace VinlandStory
             _buildings = new List<Building>();
             _resourcesOwned = new Resources(120, 105, 100);
 
-            Longhouse mainBuilding = new Longhouse(_world.Length / 2 - 1, _world.Width / 2 - 1);
-            this.Build(mainBuilding, new Builder(_world.Length / 2 - 1, _world.Width / 2 - 1, mainBuilding));
-            BuildersHouse buildHouse = new BuildersHouse(_world.Length / 2 - 2, _world.Width / 2 - 2);
-            this.Build(buildHouse, new Builder(_world.Length / 2 - 2, _world.Width / 2 - 2, buildHouse));
+            Longhouse mainBuilding = new Longhouse((_world.Length / 2) - 1, (_world.Width / 2) - 1);
+            Build(mainBuilding, new Builder((_world.Length / 2) - 1, (_world.Width / 2) - 1, mainBuilding));
+            BuildersHouse buildHouse = new BuildersHouse((_world.Length / 2) - 2, (_world.Width / 2) - 2);
+            Build(buildHouse, new Builder((_world.Length / 2) - 2, (_world.Width / 2) - 2, buildHouse));
 
             //Game itself
-            while (_currentTurn < __MAX_TURNS && _settlers.Count>0)
+            while (_currentTurn < __MAX_TURNS && CountVillagers > 0)
             {
-                this.playTurn();
+                PlayTurn();
             }
 
-            this.endGame();
+            EndGame();
         }
+        private int CountVillagers
+        {
+            get
+            {
+                List<Settler> tmp = new List<Settler>(_settlers);
+                tmp.RemoveAll(x => x is Builder);
+                tmp.RemoveAll(x => x is Hunter);
+                tmp.RemoveAll(x => x is Lumberjack);
+                tmp.RemoveAll(x => x is Miner);
+
+                return tmp.Count;
+            }
+        }
+
         /// <summary>
         /// Show pre-game text
         /// </summary>
-        private void begin()
+        private void Begin()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Bienvenue dans VinlandStory !\n");
@@ -69,7 +83,7 @@ namespace VinlandStory
         /// <summary>
         /// Play a complete turn : user choice + settlers' automation
         /// </summary>
-        private void playTurn()
+        private void PlayTurn()
         {
             //Beginning of turn
             _currentTurn++;
@@ -83,17 +97,19 @@ namespace VinlandStory
             //User interaction
             int totalBuilders = 0;
             List<Builder> unoccupiedBuilders = new List<Builder>();
-            foreach(Settler settler in _settlers)
+            foreach (Settler settler in _settlers)
             {
                 if (settler is Builder)
                 {
                     Builder builder = settler as Builder;
                     totalBuilders++;
-                    if (!builder.isOccupied())
+                    if (!builder.IsOccupied())
+                    {
                         unoccupiedBuilders.Add(builder);
+                    }
                 }
             }
-            
+
             char k;
             bool action;
             Console.WriteLine("Voici ce que vous pouvez faire : ");
@@ -114,7 +130,7 @@ namespace VinlandStory
                     int ligne = int.Parse(Console.ReadLine());
                     Console.Write("Entrez la ligne de la case :");
                     int colonne = int.Parse(Console.ReadLine());
-                    showInfos(ligne,colonne);
+                    ShowInfos(ligne, colonne);
                     break;
                 default:
                     break;
@@ -128,12 +144,12 @@ namespace VinlandStory
         /// <summary>
         /// Show the end of game and ask for a new one
         /// </summary>
-        private void endGame()
+        private void EndGame()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("FIN DE PARTIE");
             Console.ResetColor();
-            if (_settlers.Count == 0)
+            if (CountVillagers == 0)
             {
                 Console.WriteLine("Malheureusement, votre tribu Viking n'a pas survécu aux dures conditions de leur environnment ...");
             }
@@ -185,8 +201,8 @@ namespace VinlandStory
                 k = Console.ReadKey().KeyChar;
             } while (k != '0' && k != '1' && k != '2' && k != '3' && k != '4');
 
-            int ligne=0;
-            int colonne=0;
+            int ligne = 0;
+            int colonne = 0;
             if (k != '0')
             {
                 Console.WriteLine();
@@ -204,13 +220,13 @@ namespace VinlandStory
                 case '0':
                     return false;
                 case '1':
-                    return Build(new BuildersHouse(ligne+1, colonne+1),b);
+                    return Build(new BuildersHouse(ligne + 1, colonne + 1), b);
                 case '2':
-                    return Build(new HuntersHut(ligne+1, colonne+1), b);
+                    return Build(new HuntersHut(ligne + 1, colonne + 1), b);
                 case '3':
-                    return Build(new Workshop(ligne+1, colonne+1), b);
+                    return Build(new Workshop(ligne + 1, colonne + 1), b);
                 case '4':
-                    return Build(new Mine(ligne+1, colonne+1), b);
+                    return Build(new Mine(ligne + 1, colonne + 1), b);
                 default:
                     return false;
             }
@@ -223,69 +239,69 @@ namespace VinlandStory
         /// <returns>Boolean if build is possible</returns>
         private bool Build(Building build, Builder b)
         {
-            if (_resourcesOwned.Wood < build.getCost().Wood || _resourcesOwned.Stone < build.getCost().Stone || _resourcesOwned.Food < build.getCost().Food)
+            if (_resourcesOwned.Wood < build.Cost.Wood || _resourcesOwned.Stone < build.Cost.Stone || _resourcesOwned.Food < build.Cost.Food)
             {
                 Console.WriteLine("Pas assez de ressources");
                 return false;
             }
 
             World tmp = _world;
-            
-            for (int i = 0; i <build.getWidth(); i++)
+
+            for (int i = 0; i < build.Width; i++)
             {
-                for (int j = 0; j < build.getLength(); j++)
+                for (int j = 0; j < build.Length; j++)
                 {
-                    if(!tmp.UpdateTile(build.getX() + i, build.getY() + j, new BuildingTile(_rand, build)))
+                    if (!tmp.UpdateTile(build.X + i, build.Y + j, new BuildingTile(_rand, build)))
                     {
                         Console.WriteLine("Construction hors-limites !");
                         return false;
                     }
-                        
+
                 }
             }
             _world = tmp;
 
-            for(int i = 0; i < build.getWorkers(); i++)
+            for (int i = 0; i < build.Workers; i++)
             {
                 switch (build.GetType().Name)
                 {
                     case "BuildersHouse":
-                        _settlers.Add(new Builder(build.getX(), build.getY(), build));
+                        _settlers.Add(new Builder(build.X, build.Y, build));
                         break;
                     case "Longhouse":
-                        _settlers.Add(new Villager(build.getX(), build.getY(), build));
+                        _settlers.Add(new Villager(build.X, build.Y, build));
                         break;
                     case "HuntersHut":
-                        _settlers.Add(new Hunter(build.getX(), build.getY(), build));
+                        _settlers.Add(new Hunter(build.X, build.Y, build));
                         break;
                     case "Mine":
-                        _settlers.Add(new Miner(build.getX(), build.getY(), build));
+                        _settlers.Add(new Miner(build.X, build.Y, build));
                         break;
                     case "Workshop":
-                        _settlers.Add(new Lumberjack(build.getX(), build.getY(), build));
+                        _settlers.Add(new Lumberjack(build.X, build.Y, build));
                         break;
                 }
             }
             _buildings.Add(build);
-            _resourcesOwned.Wood -= build.getCost().Wood ;
-            _resourcesOwned.Stone -= build.getCost().Stone;
-            _resourcesOwned.Food -= build.getCost().Food;
+            _resourcesOwned.Wood -= build.Cost.Wood;
+            _resourcesOwned.Stone -= build.Cost.Stone;
+            _resourcesOwned.Food -= build.Cost.Food;
             b.Goal = build;
-        return true;
+            return true;
         }
         /// <summary>
         /// Show further informations about a certain tile
         /// </summary>
         /// <param name="x">Row of tile (start to 1)</param>
         /// <param name="y">Column of tile (start to 1)</param>
-        private void showInfos(int x, int y)
+        private void ShowInfos(int x, int y)
         {
             Console.WriteLine("Position : (x,y)=({0},{1})", x, y);
-            Console.WriteLine(_world[x-1, y-1].Available);
-            
-            if(_world[x-1,y-1] is BuildingTile)
+            Console.WriteLine(_world[x - 1, y - 1].Available);
+
+            if (_world[x - 1, y - 1] is BuildingTile)
             {
-                BuildingTile tile = _world[x-1, y-1] as BuildingTile;
+                BuildingTile tile = _world[x - 1, y - 1] as BuildingTile;
                 Console.WriteLine(tile.Build);
             }
         }
@@ -294,11 +310,10 @@ namespace VinlandStory
         /// </summary>
         private void CheckHunger()
         {
-            foreach(Settler s in _settlers)
+            foreach (Settler s in _settlers)
             {
-                if (s is Villager)
+                if (s is Villager v)
                 {
-                    Villager v = (Villager)s;
                     if (_resourcesOwned.Food > 0)
                     {
                         v.Eat(true);
@@ -324,26 +339,17 @@ namespace VinlandStory
         /// </summary>
         private void CheckLife()
         {
-            Settler[] tmp = new Settler[_settlers.Count];
-            _settlers.CopyTo(tmp);
-            //Check if still alive
-            for(int i=0;i<_settlers.Count;i++)
-            {
-                if (!_settlers[i].Live(_rand))
-                    tmp[i]=null;
-            }
-            _settlers = new List<Settler>(tmp);
-            _settlers.RemoveAll(x => x == null);
+            //Check if still alive and remove all deads
+            _settlers.RemoveAll(x => !x.Live(_rand));
 
-            List<Settler> tmp2 = new List<Settler>(_settlers);
+            List<Settler> tmp = new List<Settler>(_settlers);
             //Check if gives birth
-            foreach(Settler s in _settlers)
+            foreach (Settler s in _settlers)
             {
                 if (s.GiveBirth(_rand))
-                    tmp2.Add(new Villager(s.getX(), s.getY(), _buildings[0]));
+                    tmp.Add(new Villager(s.X, s.Y, _buildings[0]));
             }
-            _settlers = new List<Settler>(tmp2);
-            _settlers.RemoveAll(x => x == null);
+            _settlers = new List<Settler>(tmp);
         }
     }
 }

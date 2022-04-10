@@ -9,7 +9,6 @@ namespace VinlandStory
 {
     class Miner : Settler
     {
-        public static readonly int __MINER_VELOCITY = 1;
         public static readonly double __MINER_BIRTH_RATE = 0;
         public static readonly double __MINER_DEATH_RATE = 0;
         public static readonly int __MINER_MAX_STONE_WEARABLE = 400;
@@ -17,20 +16,13 @@ namespace VinlandStory
         private int _stone;
         private int _maxStone;
 
-        public Miner(int x, int y, Building origin) : base(x, y,__MINER_VELOCITY, __MINER_BIRTH_RATE, __MINER_DEATH_RATE, null, origin)
+        public Miner(int x, int y, Building origin) : base(x, y, __MINER_BIRTH_RATE, __MINER_DEATH_RATE, null, origin)
         {
             _stone = 0;
             _maxStone = __MINER_MAX_STONE_WEARABLE;
 
         }
-        public int getStone()
-        {
-            return _stone;
-        }
-        public void setStone(int nvStone)
-        {
-            _stone = nvStone;
-        }
+        public int Stone { get => _stone; set => _stone = value; }
 
         /// <summary>
         /// Check if miner is full with resources
@@ -38,24 +30,32 @@ namespace VinlandStory
         /// <returns>true if full</returns>
         public bool IsFull()
         {
-            return (_stone == _maxStone);
+            return _stone == _maxStone;
         }
         /// <summary>
-        /// Collect stone
+        /// Collect stone. If complete, takes nothing
         /// </summary>
         /// <param name="numberStone">Number of collected stone</param>
-        /// <returns>true if collected</returns>
-        public bool pickStone(int numberStone)
+        /// <returns>number of picked stone</returns>
+        public int PickStone(int numberStone)
         {
-            if (IsFull() == true)
+            if (IsFull())
             {
-                return false;
+                return 0;
             }
             else
             {
-                //TO DO: revise this (in case of partial full)
-                setStone(numberStone);
-                return true;
+                if (Stone + numberStone > _maxStone)
+                {
+                    int picked = _maxStone - Stone;
+                    Stone = _maxStone;
+                    return picked;
+                }
+                else
+                {
+                    Stone += numberStone;
+                    return numberStone;
+                }
             }
         }
     }

@@ -16,7 +16,7 @@ namespace VinlandStory.Buildings
 
         public Mine(int x, int y) : base(x, y, __MINE_LENGTH, __MINE_WIDTH, __MINE_COST, __MINE_RADIUS, __MINE_WORKERS)
         {
-            
+
         }
     }
 }

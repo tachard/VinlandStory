@@ -10,7 +10,7 @@ namespace VinlandStory.Buildings
     {
         public static readonly int __WORKSHOP_LENGTH = 1;
         public static readonly int __WORKSHOP_WIDTH = 1;
-        public static readonly Resources __WORKSHOP_COST = new Resources(20,5,0);
+        public static readonly Resources __WORKSHOP_COST = new Resources(20, 5, 0);
         public static readonly int __WORKSHOP_RADIUS = 5;
         public static readonly int __WORKSHOP_WORKERS = 2;
 

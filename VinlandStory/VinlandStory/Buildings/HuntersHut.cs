@@ -14,7 +14,7 @@ namespace VinlandStory.Buildings
         public static readonly int __HUT_RADIUS = 8;
         public static readonly int __HUT_WORKERS = 2;
 
-        public HuntersHut(int x, int y) : base(x,y,__HUT_LENGTH,__HUT_WIDTH,__HUT_COST, __HUT_RADIUS, __HUT_WORKERS)
+        public HuntersHut(int x, int y) : base(x, y, __HUT_LENGTH, __HUT_WIDTH, __HUT_COST, __HUT_RADIUS, __HUT_WORKERS)
         {
 
         }

@@ -12,7 +12,7 @@ namespace VinlandStory.Buildings
         protected int _y;
         protected int _length;
         protected int _width;
-        Resources _cost;
+        private Resources _cost;
         protected int _radius;
         protected int _nbWorkers;
 
@@ -27,39 +27,18 @@ namespace VinlandStory.Buildings
             _nbWorkers = nbWorkers;
         }
 
-        public int getX()
-        {
-            return _x;
-        }
-     
-        public int getY()
-        {
-            return _y;
-        }
+        public int X => _x;
 
-        public int getLength()
-        {
-            return _length;
-        }
+        public int Y => _y;
 
-        public int getWidth()
-        {
-            return _width;
-        }
+        public int Length => _length;
 
-        public Resources getCost()
-        {
-            return _cost;
-        }
+        public int Width => _width;
 
-        public int getRadius()
-        {
-            return _radius;
-        }
+        public Resources Cost => _cost;
 
-        public int getWorkers()
-        {
-            return _nbWorkers;
-        }
+        public int Radius => _radius;
+
+        public int Workers => _nbWorkers;
     }
 }
