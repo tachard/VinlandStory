@@ -8,7 +8,7 @@ namespace VinlandStory
 {
     class ForestTile : Tile
     {
-        private static readonly Resources __FOREST_RESOURCES_MIN = new Resources(150, 0, 40);
+        private static readonly Resources __FOREST_RESOURCES_MIN = new Resources(100, 0, 20);
         private static readonly Resources __FOREST_RESOURCES_MAX = new Resources(150, 0, 40);
 
         public ForestTile(Random alea, int x, int y) : base(__FOREST_RESOURCES_MIN, __FOREST_RESOURCES_MAX, alea, x, y) { }
