@@ -151,11 +151,11 @@ namespace VinlandStory
             Console.ResetColor();
             if (CountVillagers == 0)
             {
-                Console.WriteLine("Malheureusement, votre tribu Viking n'a pas survécu aux dures conditions de leur environnment ...");
+                Console.WriteLine("Malheureusement, votre tribu Viking n'a pas survécu aux dures conditions de leur environnement ...");
             }
             else
             {
-                Console.WriteLine("Vous avez réussi là où tous ont échoué. Vous serez célébrés pour les siècles à venir comme le grand conquérant Viking !");
+                Console.WriteLine("Vous avez réussi là où tous ont échoué. Les sagas vous célébreront pour les siècles à venir comme le grand conquérant Viking !");
             }
             Console.WriteLine();
             Console.WriteLine("Vos ressouces en fin de partie :");
