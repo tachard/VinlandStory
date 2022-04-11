@@ -14,7 +14,7 @@ namespace VinlandStory.Buildings
         public static readonly int __MINE_RADIUS = 5;
         public static readonly int __MINE_WORKERS = 2;
 
-        public Mine(int x, int y) : base(x, y, __MINE_LENGTH, __MINE_WIDTH, __MINE_COST, __MINE_RADIUS, __MINE_WORKERS)
+        public Mine(int x, int y, Longhouse longhouse) : base(x, y, __MINE_LENGTH, __MINE_WIDTH, __MINE_COST, __MINE_RADIUS, __MINE_WORKERS, longhouse)
         {
 
         }

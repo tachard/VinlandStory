@@ -15,8 +15,8 @@ namespace VinlandStory
         private World _world;
         private List<Settler> _settlers;
         private List<Building> _buildings;
-        private Resources _resourcesOwned;
-        private Random _rand;
+        private Longhouse _longhouse;
+
 
         /// <summary>
         /// Create a game and play it
@@ -36,10 +36,9 @@ namespace VinlandStory
             _world = new World(_rand);
             _settlers = new List<Settler>();
             _buildings = new List<Building>();
-            _resourcesOwned = new Resources(120, 105, 100);
 
-            Longhouse mainBuilding = new Longhouse((_world.Length / 2) - 1, (_world.Width / 2) - 1);
-            Build(mainBuilding, new Builder((_world.Length / 2) - 1, (_world.Width / 2) - 1, mainBuilding));
+            _longhouse = new Longhouse((_world.Length / 2) - 1, (_world.Width / 2) - 1, new Resources(120, 105, 100));
+            Build(_longhouse, new Builder((_world.Length / 2) - 1, (_world.Width / 2) - 1, _longhouse));
             BuildersHouse buildHouse = new BuildersHouse((_world.Length / 2) - 2, (_world.Width / 2) - 2);
             Build(buildHouse, new Builder((_world.Length / 2) - 2, (_world.Width / 2) - 2, buildHouse));
 
@@ -91,7 +90,7 @@ namespace VinlandStory
             Console.WriteLine("~~~~~ TOUR {0} ~~~~~\n", _currentTurn);
             _world.PrintWorld();
             Console.WriteLine();
-            Console.Write(_resourcesOwned);
+            Console.Write(_longhouse.ResourcesOwned);
             Console.WriteLine("\tColons : {0}", _settlers.Count());
             Console.WriteLine();
             //User interaction
@@ -159,7 +158,7 @@ namespace VinlandStory
             }
             Console.WriteLine();
             Console.WriteLine("Vos ressouces en fin de partie :");
-            Console.WriteLine(_resourcesOwned.ToString() + "\tColons : " + _settlers.Count);
+            Console.WriteLine(_longhouse.ResourcesOwned.ToString() + "\tColons : " + _settlers.Count);
 
             Console.WriteLine();
             Console.WriteLine("Voulez-vous refaire une partie (o/n)");
@@ -239,7 +238,7 @@ namespace VinlandStory
         /// <returns>Boolean if build is possible</returns>
         private bool Build(Building build, Builder b)
         {
-            if (_resourcesOwned.Wood < build.Cost.Wood || _resourcesOwned.Stone < build.Cost.Stone || _resourcesOwned.Food < build.Cost.Food)
+            if (_longhouse.ResourcesOwned.Wood < build.Cost.Wood || _longhouse.ResourcesOwned.Stone < build.Cost.Stone || _longhouse.ResourcesOwned.Food < build.Cost.Food)
             {
                 Console.WriteLine("Pas assez de ressources");
                 return false;
@@ -283,10 +282,11 @@ namespace VinlandStory
                 }
             }
             _buildings.Add(build);
-            _resourcesOwned.Wood -= build.Cost.Wood;
-            _resourcesOwned.Stone -= build.Cost.Stone;
-            _resourcesOwned.Food -= build.Cost.Food;
-            b.Goal = build;
+            _longhouse.ResourcesOwned.Wood -= build.Cost.Wood;
+            _longhouse.ResourcesOwned.Stone -= build.Cost.Stone;
+            _longhouse.ResourcesOwned.Food -= build.Cost.Food;
+            b.Goal = new BuildingTile(_rand, build);
+            b.GoingToGoal = true;
             return true;
         }
         /// <summary>
@@ -314,10 +314,10 @@ namespace VinlandStory
             {
                 if (s is Villager v)
                 {
-                    if (_resourcesOwned.Food > 0)
+                    if (_longhouse.ResourcesOwned.Food > 0)
                     {
                         v.Eat(true);
-                        _resourcesOwned.Food -= 1;
+                        _longhouse.ResourcesOwned.Food -= 1;
                     }
                     else
                         v.Eat(false);
@@ -332,6 +332,25 @@ namespace VinlandStory
             foreach (Settler s in _settlers)
             {
                 s.Move(_rand);
+            }
+        }
+        /// <summary>
+        /// Make every specialised settler pick resources if on it
+        /// </summary>
+        private void PickResources()
+        {
+            foreach (Settler s in _settlers)
+            {
+                if (s is Builder)
+                {
+                    Builder b = s as Builder;
+                    b.Build();
+                }
+                else if (s is Hunter)
+                {
+                    Hunter h = s as Hunter;
+
+                }
             }
         }
         /// <summary>

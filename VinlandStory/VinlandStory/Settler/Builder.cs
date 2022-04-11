@@ -11,12 +11,8 @@ namespace VinlandStory
     {
         public static readonly double __BUILDER_BIRTH_RATE = 0;
         public static readonly double __BUILDER_DEATH_RATE = 0;
-        public new Building Goal { get; set; }
 
-        public Builder(int x, int y, Building origin) : base(x, y, __BUILDER_BIRTH_RATE, __BUILDER_DEATH_RATE, null, origin)
-        {
-            Goal = null;
-        }
+        public Builder(int x, int y, Building origin) : base(x, y, __BUILDER_BIRTH_RATE, __BUILDER_DEATH_RATE, null, origin) { }
 
         /// <summary>
         /// Check if occupied
@@ -25,6 +21,18 @@ namespace VinlandStory
         public bool IsOccupied()
         {
             return Goal != null;
+        }
+
+        /// <summary>
+        /// If builder is on good place, sets goal to null and go back to home
+        /// </summary>
+        public void Build()
+        {
+            if (X == Goal.X && Y == Goal.Y)
+            {
+                Goal = null;
+                GoingToGoal = false;
+            }
         }
     }
 }

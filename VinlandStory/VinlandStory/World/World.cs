@@ -14,6 +14,7 @@ namespace VinlandStory
         public int Length { get; set; }
         public int Width { get; set; }
         private Tile[,] _tiles;
+        public Random Random { get; private set; }
 
         public Tile this[int i, int j]
         {
@@ -30,12 +31,13 @@ namespace VinlandStory
                     _tiles[i, j] = value;
             }
         }
-        public World(Random r)
+        public World()
         {
             Length = __LENGTH;
             Width = __WIDTH;
+            Random = new Random();
             _tiles = new Tile[Length, Width];
-            GenerateWorld(r);
+            GenerateWorld(Random);
         }
         /// <summary>
         /// Print the whole world on screen

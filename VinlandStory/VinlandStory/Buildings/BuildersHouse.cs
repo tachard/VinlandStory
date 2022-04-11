@@ -14,7 +14,7 @@ namespace VinlandStory.Buildings
         public static readonly int __BUILDERSHOUSE_RADIUS = 8;
         public static readonly int __BUILDERSHOUSE_WORKERS = 2;
 
-        public BuildersHouse(int x, int y) : base(x, y, __BUILDERSHOUSE_LENGTH, __BUILDERSHOUSE_WIDTH, __BUILDERSHOUSE_COST, __BUILDERSHOUSE_RADIUS, __BUILDERSHOUSE_WORKERS)
+        public BuildersHouse(int x, int y, Longhouse longhouse) : base(x, y, __BUILDERSHOUSE_LENGTH, __BUILDERSHOUSE_WIDTH, __BUILDERSHOUSE_COST, __BUILDERSHOUSE_RADIUS, __BUILDERSHOUSE_WORKERS, longhouse)
         {
 
         }

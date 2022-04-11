@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VinlandStory
 {
-    struct Resources
+    class Resources
     {
         public int Wood { get; set; }
         public int Stone { get; set; }

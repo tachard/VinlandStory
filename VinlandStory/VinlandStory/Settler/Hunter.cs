@@ -12,13 +12,15 @@ namespace VinlandStory
         public static readonly double __HUNTER_BIRTH_RATE = 0;
         public static readonly double __HUNTER_DEATH_RATE = 0;
         public static readonly int __HUNTER_MAX_FOOD_WEARABLE = 400;
+        public static readonly int __FOOD_EARNED_EVERY_TURN = 60;
         private int _food;
         private int _maxFood;
 
-        public Hunter(int x, int y, Building origin) : base(x, y, __HUNTER_BIRTH_RATE, __HUNTER_DEATH_RATE, null, origin)
+        public Hunter(int x, int y, Building origin, World world) : base(x, y, __HUNTER_BIRTH_RATE, __HUNTER_DEATH_RATE, origin, world)
         {
             _food = 0;
             _maxFood = __HUNTER_MAX_FOOD_WEARABLE;
+            SetNewGoal();
         }
         public int Food { get => _food; set => _food = value; }
         /// <summary>
@@ -32,26 +34,49 @@ namespace VinlandStory
         /// <summary>
         /// Collect Food. If complete, collect nothing.
         /// </summary>
-        /// <param name="numberFood">Number of potentially picked food</param>
-        /// <returns>Number of really collected food</returns>
-        public int CollectFood(int numberFood)
+        public void CollectFood()
         {
-            if (IsFull())
+            if (X == Goal.X && Y == Goal.Y)
             {
-                return 0;
-            }
-            else
-            {
-                if (Food + numberFood > _maxFood)
+                if (__FOOD_EARNED_EVERY_TURN > Goal.Available.Food)
                 {
+                    int picked = Goal.Available.Food;
+                    Food += picked;
+                    Goal.Available.Food -= picked;
+                    SetNewGoal();
+                }
+                if (Food + __FOOD_EARNED_EVERY_TURN > _maxFood)
+                {
+
                     int picked = _maxFood - Food;
+                    Goal.Available.Food -= picked;
                     Food = _maxFood;
-                    return picked;
+                    Goal = null;
+                    GoingToGoal = false;
                 }
                 else
                 {
-                    Food += numberFood;
-                    return numberFood;
+                    Food += __FOOD_EARNED_EVERY_TURN;
+                }
+            }
+            else if (X == Origin.X || Y == Origin.Y)
+            {
+                Origin.Longhouse.ResourcesOwned.Food += Food;
+                Food = 0;
+                SetNewGoal();
+            }
+        }
+
+        public override void SetNewGoal()
+        {
+            for(int i= Origin.X - Origin.Radius; i < Origin.X + Origin.Radius + 1; i++)
+            {
+                for(int j = Origin.Y - Origin.Radius;j < Origin.Y + Origin.Radius + 1;j++)
+                {
+                    if (World[i, j].Available.Food > 0)
+                    {
+                        Goal = World[i, j];
+                    }  
                 }
             }
         }

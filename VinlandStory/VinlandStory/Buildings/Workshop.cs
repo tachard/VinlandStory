@@ -14,7 +14,7 @@ namespace VinlandStory.Buildings
         public static readonly int __WORKSHOP_RADIUS = 5;
         public static readonly int __WORKSHOP_WORKERS = 2;
 
-        public Workshop(int x, int y) : base(x, y, __WORKSHOP_LENGTH, __WORKSHOP_WIDTH, __WORKSHOP_COST, __WORKSHOP_RADIUS, __WORKSHOP_WORKERS)
+        public Workshop(int x, int y, Longhouse longhouse) : base(x, y, __WORKSHOP_LENGTH, __WORKSHOP_WIDTH, __WORKSHOP_COST, __WORKSHOP_RADIUS, __WORKSHOP_WORKERS, longhouse)
         {
 
         }

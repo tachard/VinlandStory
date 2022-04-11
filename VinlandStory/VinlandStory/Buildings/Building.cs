@@ -15,8 +15,9 @@ namespace VinlandStory.Buildings
         private Resources _cost;
         protected int _radius;
         protected int _nbWorkers;
+        protected Longhouse _longhouse;
 
-        public Building(int x, int y, int length, int width, Resources cost, int radius, int nbWorkers)
+        public Building(int x, int y, int length, int width, Resources cost, int radius, int nbWorkers, Longhouse longhouse)
         {
             _x = x;
             _y = y;
@@ -25,6 +26,7 @@ namespace VinlandStory.Buildings
             _cost = cost;
             _radius = radius;
             _nbWorkers = nbWorkers;
+            _longhouse = longhouse;
         }
 
         public int X => _x;
@@ -40,5 +42,7 @@ namespace VinlandStory.Buildings
         public int Radius => _radius;
 
         public int Workers => _nbWorkers;
+
+        public Longhouse Longhouse => _longhouse;
     }
 }

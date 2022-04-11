@@ -16,18 +16,20 @@ namespace VinlandStory
         protected bool _hunger;
         public Tile Goal { get; set; }
         public Building Origin { get; protected set; }
-        protected bool _goingToGoal;
+        public bool GoingToGoal { get; set; }
+        public World World { get; private set; }
 
-        public Settler(int x, int y, double BirthRate, double DeathRate, Tile goal, Building origin)
+        public Settler(int x, int y, double BirthRate, double DeathRate, Building origin, World world)
         {
             _x = x;
             _y = y;
             _birthRate = BirthRate;
             _deathRate = DeathRate;
             _hunger = false;
-            _goingToGoal = false;
-            Goal = goal;
+            GoingToGoal = true;
+            Goal = null;
             Origin = origin;
+            World = world;
         }
 
         public int X { get => _x; set => _x = value; }
@@ -67,7 +69,7 @@ namespace VinlandStory
         /// <param name="r">Random type variable</param>
         public void Move(Random r)
         {
-            if (_goingToGoal)
+            if (GoingToGoal)
             {
                 MakeStep(Goal);
             }
@@ -121,5 +123,9 @@ namespace VinlandStory
         {
             return r.NextDouble() < _birthRate;
         }
+        /// <summary>
+        /// Gives new goal to settler.
+        /// </summary>
+        abstract public void SetNewGoal();
     }
 }

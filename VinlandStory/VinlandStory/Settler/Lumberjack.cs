@@ -16,10 +16,11 @@ namespace VinlandStory
         private int _wood;
         private int _maxWood;
 
-        public Lumberjack(int x, int y, Building origin) : base(x, y, __LUMBER_BIRTH_RATE, __LUMBER_DEATH_RATE, null, origin)
+        public Lumberjack(int x, int y, Building origin, World world) : base(x, y, __LUMBER_BIRTH_RATE, __LUMBER_DEATH_RATE, null, origin, world)
         {
             _wood = 0;
             _maxWood = __LUMBER_MAX_WOOD_WEARABLE;
+            SetNewGoal
         }
 
         public int Wood { get => _wood; set => _wood = value; }
