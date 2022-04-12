@@ -115,7 +115,7 @@ namespace VinlandStory
                 Console.WriteLine("Voici ce que vous pouvez faire : ");
                 Console.WriteLine("- Tapez c - Construire un bâtiment. {0}/{1} bâtisseur.s disponibles", unoccupiedBuilders.Count(), totalBuilders);
                 Console.WriteLine("- Tapez i - Révélez les ressources de la case");
-                Console.WriteLine("- Tapez une autre touche pour passer");
+                Console.WriteLine("- Tapez p - Mettre fin au tour");
                 k = Console.ReadKey().KeyChar;
                 switch (k)
                 {
@@ -127,17 +127,21 @@ namespace VinlandStory
                         break;
                     case 'i':
                         Console.WriteLine();
-                        Console.Write("Entrez la ligne de la case :");
-                        int ligne = int.Parse(Console.ReadLine());
+                        Console.Write("Entrez la ligne de la case : ");
+                        int ligne;
+                        while (!int.TryParse(Console.ReadLine(), out ligne) && ligne <= 0 || ligne > _world.Length) ;
+
                         Console.Write("Entrez la colonne de la case :");
-                        int colonne = int.Parse(Console.ReadLine());
-                        ShowInfos(ligne, colonne);
+                        int colonne;
+                        while (int.TryParse(Console.ReadLine(), out colonne) && colonne <= 0 || colonne > _world.Width) ;
+
+                        ShowInfos(ligne-1, colonne-1);
                         Console.ReadLine();
                         break;
                     default:
                         break;
                 }
-            } while (k != 'c');
+            } while (k != 'c' && k!='p');
             
 
             //Automatic behaviour
@@ -151,6 +155,7 @@ namespace VinlandStory
         /// </summary>
         private void EndGame()
         {
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("FIN DE PARTIE");
             Console.ResetColor();
@@ -172,10 +177,10 @@ namespace VinlandStory
             do
             {
                 k = Console.ReadKey().KeyChar;
-            } while (k != 'y' && k != 'n');
+            } while (k != 'o' && k != 'n');
             switch (k)
             {
-                case 'y':
+                case 'o':
                     Game g2 = new Game();
                     break;
                 case 'n':
@@ -211,13 +216,10 @@ namespace VinlandStory
             if (k != '0')
             {
                 Console.WriteLine();
-                do
-                {
-                    Console.Write("Choisissez la ligne : ");
-                    ligne = int.Parse(Console.ReadLine()) - 1;
-                    Console.Write("Choisissez la colonne : ");
-                    colonne = int.Parse(Console.ReadLine()) - 1;
-                } while (ligne <= 0 || ligne > _world.Length || colonne <= 0 || colonne > _world.Width);
+                Console.Write("Choisissez la ligne : ");
+                while (!int.TryParse(Console.ReadLine(), out ligne) && ligne <= 0 || ligne > _world.Length) ;
+                Console.Write("Choisissez la colonne : ");
+                while (!int.TryParse(Console.ReadLine(), out colonne) && colonne <= 0 || colonne > _world.Width) ;
             }
 
             switch (k)
@@ -225,13 +227,13 @@ namespace VinlandStory
                 case '0':
                     return false;
                 case '1':
-                    return Build(new BuildersHouse(ligne + 1, colonne + 1, _longhouse), b);
+                    return Build(new BuildersHouse(ligne - 1, colonne - 1, _longhouse), b);
                 case '2':
-                    return Build(new HuntersHut(ligne + 1, colonne + 1, _longhouse), b);
+                    return Build(new HuntersHut(ligne - 1, colonne - 1, _longhouse), b);
                 case '3':
-                    return Build(new Workshop(ligne + 1, colonne + 1, _longhouse), b);
+                    return Build(new Workshop(ligne - 1, colonne - 1, _longhouse), b);
                 case '4':
-                    return Build(new Mine(ligne + 1, colonne + 1, _longhouse), b);
+                    return Build(new Mine(ligne - 1, colonne - 1, _longhouse), b);
                 default:
                     return false;
             }
