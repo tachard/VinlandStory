@@ -31,16 +31,15 @@ namespace VinlandStory
             Begin();
 
             //Intiate game
-            _rand = new Random();
             _currentTurn = 0;
-            _world = new World(_rand);
+            _world = new World();
             _settlers = new List<Settler>();
             _buildings = new List<Building>();
 
             _longhouse = new Longhouse((_world.Length / 2) - 1, (_world.Width / 2) - 1, new Resources(120, 105, 100));
-            Build(_longhouse, new Builder((_world.Length / 2) - 1, (_world.Width / 2) - 1, _longhouse));
-            BuildersHouse buildHouse = new BuildersHouse((_world.Length / 2) - 2, (_world.Width / 2) - 2);
-            Build(buildHouse, new Builder((_world.Length / 2) - 2, (_world.Width / 2) - 2, buildHouse));
+            Build(_longhouse, new Builder((_world.Length / 2) - 1, (_world.Width / 2) - 1, null, _world));
+            BuildersHouse buildHouse = new BuildersHouse((_world.Length / 2) - 2, (_world.Width / 2) - 2,_longhouse);
+            Build(buildHouse, new Builder((_world.Length / 2) - 2, (_world.Width / 2) - 2, null, _world));
 
             //Game itself
             while (_currentTurn < __MAX_TURNS && CountVillagers > 0)
@@ -139,6 +138,7 @@ namespace VinlandStory
             CheckHunger();
             CheckLife();
             Move();
+            PickResources();
         }
         /// <summary>
         /// Show the end of game and ask for a new one
@@ -219,13 +219,13 @@ namespace VinlandStory
                 case '0':
                     return false;
                 case '1':
-                    return Build(new BuildersHouse(ligne + 1, colonne + 1), b);
+                    return Build(new BuildersHouse(ligne + 1, colonne + 1, _longhouse), b);
                 case '2':
-                    return Build(new HuntersHut(ligne + 1, colonne + 1), b);
+                    return Build(new HuntersHut(ligne + 1, colonne + 1, _longhouse), b);
                 case '3':
-                    return Build(new Workshop(ligne + 1, colonne + 1), b);
+                    return Build(new Workshop(ligne + 1, colonne + 1, _longhouse), b);
                 case '4':
-                    return Build(new Mine(ligne + 1, colonne + 1), b);
+                    return Build(new Mine(ligne + 1, colonne + 1, _longhouse), b);
                 default:
                     return false;
             }
@@ -250,12 +250,11 @@ namespace VinlandStory
             {
                 for (int j = 0; j < build.Length; j++)
                 {
-                    if (!tmp.UpdateTile(build.X + i, build.Y + j, new BuildingTile(_rand, build)))
+                    if (!tmp.UpdateTile(build.X + i, build.Y + j, new BuildingTile(_world.Random,build)))
                     {
                         Console.WriteLine("Construction hors-limites !");
                         return false;
                     }
-
                 }
             }
             _world = tmp;
@@ -265,19 +264,19 @@ namespace VinlandStory
                 switch (build.GetType().Name)
                 {
                     case "BuildersHouse":
-                        _settlers.Add(new Builder(build.X, build.Y, build));
+                        _settlers.Add(new Builder(build.X, build.Y, build,_world));
                         break;
                     case "Longhouse":
-                        _settlers.Add(new Villager(build.X, build.Y, build));
+                        _settlers.Add(new Villager(build.X, build.Y, build,_world));
                         break;
                     case "HuntersHut":
-                        _settlers.Add(new Hunter(build.X, build.Y, build));
+                        _settlers.Add(new Hunter(build.X, build.Y, build,_world));
                         break;
                     case "Mine":
-                        _settlers.Add(new Miner(build.X, build.Y, build));
+                        _settlers.Add(new Miner(build.X, build.Y, build,_world));
                         break;
                     case "Workshop":
-                        _settlers.Add(new Lumberjack(build.X, build.Y, build));
+                        _settlers.Add(new Lumberjack(build.X, build.Y, build,_world));
                         break;
                 }
             }
@@ -285,7 +284,7 @@ namespace VinlandStory
             _longhouse.ResourcesOwned.Wood -= build.Cost.Wood;
             _longhouse.ResourcesOwned.Stone -= build.Cost.Stone;
             _longhouse.ResourcesOwned.Food -= build.Cost.Food;
-            b.Goal = new BuildingTile(_rand, build);
+            b.Goal = new BuildingTile(_world.Random, build);
             b.GoingToGoal = true;
             return true;
         }
@@ -331,7 +330,7 @@ namespace VinlandStory
         {
             foreach (Settler s in _settlers)
             {
-                s.Move(_rand);
+                s.Move(_world.Random);
             }
         }
         /// <summary>
@@ -349,7 +348,17 @@ namespace VinlandStory
                 else if (s is Hunter)
                 {
                     Hunter h = s as Hunter;
-
+                    h.CollectFood();
+                }
+                else if (s is Lumberjack)
+                {
+                    Lumberjack l = s as Lumberjack;
+                    l.CutWood();
+                }
+                else if (s is Miner)
+                {
+                   Miner m = s as Miner;
+                    m.PickStone();
                 }
             }
         }
@@ -359,14 +368,14 @@ namespace VinlandStory
         private void CheckLife()
         {
             //Check if still alive and remove all deads
-            _settlers.RemoveAll(x => !x.Live(_rand));
+            _settlers.RemoveAll(x => !x.Live(_world.Random));
 
             List<Settler> tmp = new List<Settler>(_settlers);
             //Check if gives birth
             foreach (Settler s in _settlers)
             {
-                if (s.GiveBirth(_rand))
-                    tmp.Add(new Villager(s.X, s.Y, _buildings[0]));
+                if (s.GiveBirth(_world.Random))
+                    tmp.Add(new Villager(s.X, s.Y, _longhouse, _world));
             }
             _settlers = new List<Settler>(tmp);
         }
