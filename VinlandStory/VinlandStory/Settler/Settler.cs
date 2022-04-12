@@ -86,24 +86,28 @@ namespace VinlandStory
         /// <param name="goal">Goal Tile</param>
         private void MakeStep(Tile goal)
         {
-            int MoveDist = ((goal.X - X) * (goal.X - X)) + ((goal.Y - Y) * (goal.Y - Y));
-            int bestX = X;
-            int bestY = Y;
-            for (int i = -1; i <= 1; i++)
+            if (goal != null)
             {
-                for (int j = -1; j <= 1; j++)
+                int MoveDist = ((goal.X - X) * (goal.X - X)) + ((goal.Y - Y) * (goal.Y - Y));
+                int bestX = X;
+                int bestY = Y;
+                for (int i = -1; i <= 1; i++)
                 {
-                    int afterPotentialMoveDist = ((goal.X - X - i) * (goal.X - X - i)) + ((goal.Y - Y - j) * (goal.Y - Y - j));
-                    if (afterPotentialMoveDist < MoveDist)
+                    for (int j = -1; j <= 1; j++)
                     {
-                        MoveDist = afterPotentialMoveDist;
-                        bestX = X + i;
-                        bestY = Y + j;
+                        int afterPotentialMoveDist = ((goal.X - X - i) * (goal.X - X - i)) + ((goal.Y - Y - j) * (goal.Y - Y - j));
+                        if (afterPotentialMoveDist < MoveDist)
+                        {
+                            MoveDist = afterPotentialMoveDist;
+                            bestX = X + i;
+                            bestY = Y + j;
+                        }
                     }
                 }
+                X = bestX;
+                Y = bestY;
             }
-            X = bestX;
-            Y = bestY;
+            
         }
         /// <summary>
         /// Choose randomly (knowing probability to die) if settler dies.

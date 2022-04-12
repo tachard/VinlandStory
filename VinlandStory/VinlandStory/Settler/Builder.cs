@@ -28,11 +28,15 @@ namespace VinlandStory
         /// </summary>
         public void Build()
         {
-            if (X == Goal.X && Y == Goal.Y)
+            if (Goal != null)
             {
-                Goal = null;
-                GoingToGoal = false;
+                if (X == Goal.X && Y == Goal.Y)
+                {
+                    Goal = null;
+                    GoingToGoal = false;
+                }
             }
+            
         }
         public override void SetNewGoal() { }
     }
