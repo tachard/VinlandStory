@@ -110,29 +110,35 @@ namespace VinlandStory
 
             char k;
             bool action;
-            Console.WriteLine("Voici ce que vous pouvez faire : ");
-            Console.WriteLine("- Tapez c - Construire un bâtiment. {0}/{1} bâtisseur.s disponibles", unoccupiedBuilders.Count(), totalBuilders);
-            Console.WriteLine("- Tapez i - Révélez les ressources de la case");
-            Console.WriteLine("- Tapez une autre touche pour passer");
-
-            k = Console.ReadKey().KeyChar;
-            switch (k)
+            do
             {
-                case 'c':
-                    action = ChooseBuildOption(unoccupiedBuilders[0]);
-                    if (action)
-                        unoccupiedBuilders.RemoveAt(0);
-                    break;
-                case 'i':
-                    Console.Write("Entrez la ligne de la case :");
-                    int ligne = int.Parse(Console.ReadLine());
-                    Console.Write("Entrez la colonne de la case :");
-                    int colonne = int.Parse(Console.ReadLine());
-                    ShowInfos(ligne, colonne);
-                    break;
-                default:
-                    break;
-            }
+                Console.WriteLine("Voici ce que vous pouvez faire : ");
+                Console.WriteLine("- Tapez c - Construire un bâtiment. {0}/{1} bâtisseur.s disponibles", unoccupiedBuilders.Count(), totalBuilders);
+                Console.WriteLine("- Tapez i - Révélez les ressources de la case");
+                Console.WriteLine("- Tapez une autre touche pour passer");
+                k = Console.ReadKey().KeyChar;
+                switch (k)
+                {
+                    case 'c':
+                        Console.WriteLine();
+                        action = ChooseBuildOption(unoccupiedBuilders[0]);
+                        if (action)
+                            unoccupiedBuilders.RemoveAt(0);
+                        break;
+                    case 'i':
+                        Console.WriteLine();
+                        Console.Write("Entrez la ligne de la case :");
+                        int ligne = int.Parse(Console.ReadLine());
+                        Console.Write("Entrez la colonne de la case :");
+                        int colonne = int.Parse(Console.ReadLine());
+                        ShowInfos(ligne, colonne);
+                        Console.ReadLine();
+                        break;
+                    default:
+                        break;
+                }
+            } while (k != 'c');
+            
 
             //Automatic behaviour
             CheckHunger();
