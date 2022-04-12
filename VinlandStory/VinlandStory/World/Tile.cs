@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VinlandStory
 {
-    abstract class Tile
+    public abstract class Tile
     {
         public Resources Available { get; set; }
         public Resources AvailableMin { get; private set; }

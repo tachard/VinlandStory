@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VinlandStory.Buildings
 {
-    class BuildersHouse : Building
+    public class BuildersHouse : Building
     {
         public static readonly int __BUILDERSHOUSE_LENGTH = 1;
         public static readonly int __BUILDERSHOUSE_WIDTH = 1;

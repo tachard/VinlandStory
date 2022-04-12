@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VinlandStory
 {
-    class MeadowTile : Tile
+    public class MeadowTile : Tile
     {
         private static readonly Resources __MEADOW_RESOURCES_MIN = new Resources(0, 0, 100);
         private static readonly Resources __MEADOW_RESOURCES_MAX = new Resources(0, 0, 140);

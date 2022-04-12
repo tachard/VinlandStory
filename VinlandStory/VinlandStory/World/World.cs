@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VinlandStory
 {
-    class World
+    public class World
     {
         public static readonly int __LENGTH = 30;
         public static readonly int __WIDTH = 30;

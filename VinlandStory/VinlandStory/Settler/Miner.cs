@@ -7,7 +7,7 @@ using VinlandStory.Buildings;
 
 namespace VinlandStory
 {
-    class Miner : Settler
+    public class Miner : Settler
     {
         public static readonly double __MINER_BIRTH_RATE = 0;
         public static readonly double __MINER_DEATH_RATE = 0;

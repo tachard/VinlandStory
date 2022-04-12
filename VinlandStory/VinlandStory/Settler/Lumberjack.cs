@@ -7,7 +7,7 @@ using VinlandStory.Buildings;
 
 namespace VinlandStory
 {
-    class Lumberjack : Settler
+    public class Lumberjack : Settler
     {
         public static readonly double __LUMBER_BIRTH_RATE = 0;
         public static readonly double __LUMBER_DEATH_RATE = 0;

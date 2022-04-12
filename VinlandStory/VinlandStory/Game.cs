@@ -7,7 +7,7 @@ using VinlandStory.Buildings;
 
 namespace VinlandStory
 {
-    class Game
+    public class Game
     {
         public static readonly int __MAX_TURNS = 30;
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VinlandStory.Buildings
 {
-    abstract class Building
+    public abstract class Building
     {
         protected int _x;
         protected int _y;

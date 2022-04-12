@@ -7,7 +7,7 @@ using VinlandStory.Buildings;
 
 namespace VinlandStory
 {
-    class BuildingTile : Tile
+    public class BuildingTile : Tile
     {
         private static readonly Resources __BUILDING_RESOURCES_MIN = new Resources(0, 0, 0);
         private static readonly Resources __BUILDING_RESOURCES_MAX = new Resources(0, 0, 0);

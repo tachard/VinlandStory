@@ -7,7 +7,7 @@ using VinlandStory.Buildings;
 
 namespace VinlandStory
 {
-    abstract class Settler
+    public abstract class Settler
     {
         protected int _x;
         protected int _y;
