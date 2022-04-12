@@ -14,7 +14,10 @@ namespace VinlandStory
         public static readonly double __VILLAGER_HUNGRY_BIRTH_RATE = 0;
         public static readonly double __VILLAGER_HUNGRY_DEATH_RATE = 0.6;
 
-        public Villager(int x, int y, Building origin) : base(x, y, __VILLAGER_BASE_BIRTH_RATE, __VILLAGER_BASE_DEATH_RATE, null, origin) { }
+        public Villager(int x, int y, Building origin, World world) : base(x, y, __VILLAGER_BASE_BIRTH_RATE, __VILLAGER_BASE_DEATH_RATE, origin, world)
+        {
+            GoingToGoal = false;
+        }
         /// <summary>
         /// Make villager eat. If no, villager may die.
         /// </summary>
@@ -32,5 +35,6 @@ namespace VinlandStory
                 Death = __VILLAGER_BASE_DEATH_RATE;
             }
         }
+        public override void SetNewGoal() { }
     }
 }

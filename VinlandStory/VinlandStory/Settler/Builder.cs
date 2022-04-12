@@ -12,7 +12,7 @@ namespace VinlandStory
         public static readonly double __BUILDER_BIRTH_RATE = 0;
         public static readonly double __BUILDER_DEATH_RATE = 0;
 
-        public Builder(int x, int y, Building origin) : base(x, y, __BUILDER_BIRTH_RATE, __BUILDER_DEATH_RATE, null, origin) { }
+        public Builder(int x, int y, Building origin, World world) : base(x, y, __BUILDER_BIRTH_RATE, __BUILDER_DEATH_RATE, origin, world) { }
 
         /// <summary>
         /// Check if occupied
@@ -34,5 +34,6 @@ namespace VinlandStory
                 GoingToGoal = false;
             }
         }
+        public override void SetNewGoal() { }
     }
 }

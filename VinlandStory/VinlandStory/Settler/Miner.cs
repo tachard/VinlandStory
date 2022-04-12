@@ -12,14 +12,16 @@ namespace VinlandStory
         public static readonly double __MINER_BIRTH_RATE = 0;
         public static readonly double __MINER_DEATH_RATE = 0;
         public static readonly int __MINER_MAX_STONE_WEARABLE = 400;
+        public static readonly int __STONE_EARNED_EVERY_TURN = 60;
 
         private int _stone;
         private int _maxStone;
 
-        public Miner(int x, int y, Building origin) : base(x, y, __MINER_BIRTH_RATE, __MINER_DEATH_RATE, null, origin)
+        public Miner(int x, int y, Building origin,World world) : base(x, y, __MINER_BIRTH_RATE, __MINER_DEATH_RATE, origin,world)
         {
             _stone = 0;
             _maxStone = __MINER_MAX_STONE_WEARABLE;
+            SetNewGoal();
 
         }
         public int Stone { get => _stone; set => _stone = value; }
@@ -35,26 +37,49 @@ namespace VinlandStory
         /// <summary>
         /// Collect stone. If complete, takes nothing
         /// </summary>
-        /// <param name="numberStone">Number of collected stone</param>
-        /// <returns>number of picked stone</returns>
-        public int PickStone(int numberStone)
+        public void PickStone()
         {
-            if (IsFull())
+            if (X == Goal.X && Y == Goal.Y)
             {
-                return 0;
-            }
-            else
-            {
-                if (Stone + numberStone > _maxStone)
+                if (__STONE_EARNED_EVERY_TURN > Goal.Available.Stone)
                 {
+                    int picked = Goal.Available.Stone;
+                    Stone += picked;
+                    Goal.Available.Stone -= picked;
+                    SetNewGoal();
+                }
+                if (Stone + __STONE_EARNED_EVERY_TURN > _maxStone)
+                {
+
                     int picked = _maxStone - Stone;
+                    Goal.Available.Stone -= picked;
                     Stone = _maxStone;
-                    return picked;
+                    Goal = null;
+                    GoingToGoal = false;
                 }
                 else
                 {
-                    Stone += numberStone;
-                    return numberStone;
+                    Stone += __STONE_EARNED_EVERY_TURN;
+                }
+            }
+            else if (X == Origin.X || Y == Origin.Y)
+            {
+                Origin.Longhouse.ResourcesOwned.Stone += Stone;
+                Stone = 0;
+                SetNewGoal();
+            }
+        }
+
+        public override void SetNewGoal()
+        {
+            for (int i = Origin.X - Origin.Radius; i < Origin.X + Origin.Radius + 1; i++)
+            {
+                for (int j = Origin.Y - Origin.Radius; j < Origin.Y + Origin.Radius + 1; j++)
+                {
+                    if (World[i, j].Available.Stone > 0)
+                    {
+                        Goal = World[i, j];
+                    }
                 }
             }
         }
