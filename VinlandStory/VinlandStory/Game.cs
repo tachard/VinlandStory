@@ -90,7 +90,8 @@ namespace VinlandStory
             _world.PrintWorld();
             Console.WriteLine();
             Console.Write(_longhouse.ResourcesOwned);
-            Console.WriteLine("\tColons : {0}", _settlers.Count());
+            Console.WriteLine("\tColons : {0}", CountVillagers); 
+            //The two first builders are removed from the list _settlers
             Console.WriteLine();
             //User interaction
             int totalBuilders = 0;
