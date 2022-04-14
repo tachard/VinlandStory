@@ -43,12 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Buildings\BuildersHouse.cs" />
-    <Compile Include="Buildings\Building.cs" />
-    <Compile Include="Buildings\HuntersHut.cs" />
-    <Compile Include="Buildings\Longhouse.cs" />
-    <Compile Include="Buildings\Mine.cs" />
-    <Compile Include="Buildings\Workshop.cs" />
+    <Compile Include="Building\BuildersHouse.cs" />
+    <Compile Include="Building\Building.cs" />
+    <Compile Include="Building\HuntersHut.cs" />
+    <Compile Include="Building\Longhouse.cs" />
+    <Compile Include="Building\Mine.cs" />
+    <Compile Include="Building\Workshop.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="World\BuildingTile.cs" />
