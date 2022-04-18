@@ -59,7 +59,7 @@ namespace VinlandStory
                     Food += __FOOD_EARNED_EVERY_TURN;
                 }
             }
-            else if (X == Origin.X || Y == Origin.Y)
+            else if (X == Origin.X && Y == Origin.Y)
             {
                 Origin.Longhouse.ResourcesOwned.Food += Food;
                 Food = 0;
@@ -73,10 +73,14 @@ namespace VinlandStory
             {
                 for(int j = Origin.Y - Origin.Radius;j < Origin.Y + Origin.Radius + 1;j++)
                 {
-                    if (World[i, j].Available.Food > 0)
+                    if(i>=0 && i<World.Length && j>=0 && j < World.Width)
                     {
-                        Goal = World[i, j];
-                    }  
+                        if (World[i, j].Available.Food > 0)
+                        {
+                            Goal = World[i, j];
+                            GoingToGoal = true;
+                        }
+                    }    
                 }
             }
         }

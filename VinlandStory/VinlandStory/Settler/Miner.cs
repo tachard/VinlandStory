@@ -76,10 +76,15 @@ namespace VinlandStory
             {
                 for (int j = Origin.Y - Origin.Radius; j < Origin.Y + Origin.Radius + 1; j++)
                 {
-                    if (World[i, j].Available.Stone > 0)
+                    if (i>=0 && i<World.Length && j>=0 && j < World.Width)
                     {
-                        Goal = World[i, j];
+                        if (World[i, j].Available.Stone > 0)
+                        {
+                            Goal = World[i, j];
+                            GoingToGoal = true;
+                        }
                     }
+                    
                 }
             }
         }
