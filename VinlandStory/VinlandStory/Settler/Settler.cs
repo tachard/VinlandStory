@@ -26,7 +26,7 @@ namespace VinlandStory
             _birthRate = BirthRate;
             _deathRate = DeathRate;
             _hunger = false;
-            GoingToGoal = true;
+            GoingToGoal = false;
             Goal = null;
             Origin = origin;
             World = world;

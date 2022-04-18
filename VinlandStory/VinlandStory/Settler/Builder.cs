@@ -28,7 +28,7 @@ namespace VinlandStory
         /// </summary>
         public void Build()
         {
-            if (Goal != null)
+            if (IsOccupied())
             {
                 if (X == Goal.X && Y == Goal.Y)
                 {
@@ -38,6 +38,12 @@ namespace VinlandStory
             }
             
         }
+
         public override void SetNewGoal() { }
+        public void SetNewGoal(Tile goal)
+        {
+            Goal = goal;
+            GoingToGoal = true;
+        }
     }
 }

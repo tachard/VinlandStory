@@ -293,8 +293,7 @@ namespace VinlandStory
             _longhouse.ResourcesOwned.Wood -= build.Cost.Wood;
             _longhouse.ResourcesOwned.Stone -= build.Cost.Stone;
             _longhouse.ResourcesOwned.Food -= build.Cost.Food;
-            b.Goal = new BuildingTile(_world.Random, build);
-            b.GoingToGoal = true;
+            b.SetNewGoal(new BuildingTile(_world.Random, build));
             return true;
         }
         /// <summary>
