@@ -199,12 +199,16 @@ namespace VinlandStory
             Console.WriteLine();
             Console.WriteLine("Choisissez un bâtiment à construire (tapez le numéro) :");
             Console.WriteLine("0 - Retour");
+            Console.WriteLine();
             Console.WriteLine("1 - Cabane des bâtisseurs");
             Console.WriteLine("Coût :" + BuildersHouse.__BUILDERSHOUSE_COST.ToString());
+            Console.WriteLine();
             Console.WriteLine("2 - Cabane des chasseurs");
             Console.WriteLine("Coût :" + HuntersHut.__HUT_COST.ToString());
+            Console.WriteLine();
             Console.WriteLine("3 - Scierie");
             Console.WriteLine("Coût :" + Workshop.__WORKSHOP_COST.ToString());
+            Console.WriteLine();
             Console.WriteLine("4 - Mine");
             Console.WriteLine("Coût :" + Mine.__MINE_COST.ToString());
             char k;
