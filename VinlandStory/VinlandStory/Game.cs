@@ -137,6 +137,7 @@ namespace VinlandStory
                         while (int.TryParse(Console.ReadLine(), out colonne) && colonne <= 0 || colonne > _world.Width) ;
 
                         ShowInfos(ligne-1, colonne-1);
+                        Console.WriteLine("Tapez Entrée pour revenir au menu ...");
                         Console.ReadLine();
                         break;
                     default:
@@ -303,12 +304,12 @@ namespace VinlandStory
         /// <param name="y">Column of tile (start to 1)</param>
         private void ShowInfos(int x, int y)
         {
-            Console.WriteLine("Position : (x,y)=({0},{1})", x, y);
-            Console.WriteLine(_world[x - 1, y - 1].Available);
+            Console.WriteLine("Position : (x,y)=({0},{1})", x+1, y+1);
+            Console.WriteLine(_world[x, y].Available);
 
-            if (_world[x - 1, y - 1] is BuildingTile)
+            if (_world[x, y] is BuildingTile)
             {
-                BuildingTile tile = _world[x - 1, y - 1] as BuildingTile;
+                BuildingTile tile = _world[x, y] as BuildingTile;
                 Console.WriteLine(tile.Build);
             }
         }
